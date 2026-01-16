@@ -1,0 +1,7 @@
+{
+  "name": "Lcd-Connect-App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
