@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { AppService } from './services/app-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +9,12 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(appService: AppService, router: Router) {
+    effect(() => {
+      if (!appService.isLogged()) {
+        router.navigate(['server-selection']);
+        return;
+      }
+    });
+  }
 }

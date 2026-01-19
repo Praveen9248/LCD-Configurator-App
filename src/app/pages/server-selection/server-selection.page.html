@@ -1,0 +1,12 @@
+<ion-content class="container">
+  <form (ngSubmit)="onNext()" class="form-container">
+    <ion-item>
+      <ion-select label="Select Server" labelPlacement="fixed">
+        <ion-select-option value="Stage00">Stage00</ion-select-option>
+        <ion-select-option value="Asia">Asia</ion-select-option>
+        <ion-select-option value="Europe">Europe</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button type="submit" expand="block">Next</ion-button>
+  </form>
+</ion-content>
