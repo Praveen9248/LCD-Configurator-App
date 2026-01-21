@@ -10,15 +10,23 @@
 
     @if (form.get('screenSaverType')!.enabled) {
     <ion-item>
-      <ion-select formControlName="screenSaverType">
-        <ion-select-option value="singleImage"></ion-select-option>
-        <ion-select-option value="multiImage"></ion-select-option>
-        <ion-select-option value="video"></ion-select-option>
+      <ion-select formControlName="screenSaverType" label="Screen Saver Type">
+        <ion-select-option value="singleImage"
+          >Single Image Ads</ion-select-option
+        >
+        <ion-select-option value="multiImage"
+          >Multi Image Ads</ion-select-option
+        >
+        <ion-select-option value="video">Video Ad</ion-select-option>
       </ion-select>
     </ion-item>
     } @if (form.get('imageUrl')!.enabled) {
     <ion-item
-      ><ion-input label="Image URL" formControlName="imageUrl"></ion-input
+      ><ion-input
+        label="Image URL"
+        formControlName="imageUrl"
+        label="Image URL"
+      ></ion-input
     ></ion-item>
     } @if (form.get('imageUrls')!.enabled) {
     <ion-item>

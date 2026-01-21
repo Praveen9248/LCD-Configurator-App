@@ -12,6 +12,7 @@ import {
   IonLabel,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
+import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
 
 @Component({
   selector: 'app-button-input',
@@ -30,7 +31,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './button-input.component.html',
   styleUrls: ['./button-input.component.scss'],
 })
-export class ButtonInputComponent implements OnInit {
+export class ButtonInputComponent implements OnInit, handleStepForm {
   @Input() stepConfig: any;
 
   constructor(
@@ -67,10 +68,6 @@ export class ButtonInputComponent implements OnInit {
     });
 
     this.applyButtonRules(this.form.get('buttonType')!.value);
-
-    this.form.valueChanges.subscribe((val) => {
-      this.layoutContextService.update({ button: val });
-    });
   }
 
   applyButtonRules(type: any) {
@@ -79,36 +76,47 @@ export class ButtonInputComponent implements OnInit {
 
     if (type === 'text-only') {
       this.enableText();
-      this.form.get('backgroundColor')!.enable();
-    }
-
-    if (type === 'image-only') {
+      this.form.get('backgroundColor')!.enable({ emitEvent: false });
+    } else if (type === 'image-only') {
       this.enableImage();
-      this.form.get('backgroundColor')!.setValue('transparent');
-      this.form.get('backgroundColor')!.disable();
-    }
-
-    if (type === 'textImage') {
+      this.form.get('backgroundColor')!.disable({ emitEvent: false });
+    } else if (type === 'textImage') {
       this.enableText();
       this.enableImage();
-      this.form.get('backgroundColor')!.enable();
+      this.form.get('backgroundColor')!.enable({ emitEvent: false });
     }
   }
 
   enableText() {
-    this.setRequired(['textHorizontalPos', 'textVerticalPos', 'textColor']);
+    ['textHorizontalPos', 'textVerticalPos', 'textColor'].forEach((f) => {
+      const c = this.form.get(f)!;
+      c.enable({ emitEvent: false });
+      c.setValidators(Validators.required);
+      c.updateValueAndValidity();
+    });
   }
 
   enableImage() {
-    this.setRequired(['imageUrl']);
+    const imageControl = this.form.get('imageUrl')!;
+    imageControl.enable({ emitEvent: false });
+    imageControl.setValidators(Validators.required);
+    imageControl.updateValueAndValidity();
   }
 
   clearTextFields() {
-    this.clearValidators(['textHorizontalPos', 'textVerticalPos', 'textColor']);
+    ['textHorizontalPos', 'textVerticalPos', 'textColor'].forEach((f) => {
+      const c = this.form.get(f)!;
+      c.disable({ emitEvent: false });
+      c.clearValidators();
+      c.updateValueAndValidity();
+    });
   }
 
   clearImageFields() {
-    this.clearValidators(['imageUrl']);
+    const imageControl = this.form.get('imageUrl')!;
+    imageControl.disable({ emitEvent: false });
+    imageControl.clearValidators();
+    imageControl.updateValueAndValidity();
   }
 
   setRequired(fields: string[]) {
@@ -123,8 +131,15 @@ export class ButtonInputComponent implements OnInit {
     fields.forEach((f) => {
       const c = this.form.get(f)!;
       c.clearValidators();
-      c.setValue(null);
       c.updateValueAndValidity();
+    });
+  }
+
+  onSubmit(): void {
+    if (this.form.invalid) return;
+    console.log(this.form);
+    this.layoutContextService.update({
+      button: this.form.value,
     });
   }
 }

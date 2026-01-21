@@ -8,13 +8,16 @@ import {
   IonSelectOption,
   IonListHeader,
   IonText,
+  IonInput,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
+import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
 
 @Component({
   selector: 'app-header-input',
   standalone: true,
   imports: [
+    IonInput,
     IonText,
     IonListHeader,
     IonItem,
@@ -27,7 +30,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './header-input.component.html',
   styleUrls: ['./header-input.component.scss'],
 })
-export class HeaderInputComponent implements OnInit {
+export class HeaderInputComponent implements OnInit, handleStepForm {
   @Input() stepConfig: any;
 
   constructor(
@@ -36,17 +39,29 @@ export class HeaderInputComponent implements OnInit {
   ) {}
 
   form = this.fb.group({
-    headerType: [null, Validators.required],
+    headerType: ['H0001', Validators.required],
+    title: ['', Validators.required],
+    caption: [''],
+    backgroundColor: ['#ffffff'],
+    textColor: ['#000000'],
+    textPosition: ['center'],
+    textSize: [20],
   });
 
   ngOnInit() {
     const saved = this.layoutContextService.value.header;
     if (saved) {
-      this.form.patchValue(saved);
+      Promise.resolve().then(() => {
+        this.form.patchValue(saved);
+      });
     }
+  }
 
-    this.form.valueChanges.subscribe((val) => {
-      this.layoutContextService.update({ header: val });
+  onSubmit(): void {
+    if (this.form.invalid) return;
+
+    this.layoutContextService.update({
+      header: this.form.getRawValue(),
     });
   }
 }

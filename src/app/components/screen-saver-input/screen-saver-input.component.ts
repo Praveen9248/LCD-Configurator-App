@@ -13,6 +13,7 @@ import {
   IonSelectOption,
   IonInput,
 } from '@ionic/angular/standalone';
+import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
 
 @Component({
   selector: 'app-screen-saver-input',
@@ -33,7 +34,7 @@ import {
   templateUrl: './screen-saver-input.component.html',
   styleUrls: ['./screen-saver-input.component.scss'],
 })
-export class ScreenSaverInputComponent implements OnInit {
+export class ScreenSaverInputComponent implements OnInit, handleStepForm {
   @Input() stepConfig: any;
   constructor(
     private fb: FormBuilder,
@@ -43,20 +44,21 @@ export class ScreenSaverInputComponent implements OnInit {
   form = this.fb.group({
     screenSaverStatus: this.fb.control<boolean>(false, {
       nonNullable: true,
-      validators: Validators.required,
     }),
-    screenSaverType: [''],
-    imageUrl: [''],
-    imageUrls: [[]],
-    videoUrl: [''],
-    videoLoop: [true],
-    timeout: [30],
+    screenSaverType: [{ value: null, disabled: true }],
+    imageUrl: [{ value: null, disabled: true }],
+    imageUrls: [{ value: [], disabled: true }],
+    videoUrl: [{ value: null, disabled: true }],
+    videoLoop: [{ value: true, disabled: true }],
+    timeout: [{ value: 30, disabled: true }],
   });
 
   ngOnInit() {
     const saved = this.layoutContextService.value.screenSaver;
     if (saved) {
-      this.form.patchValue(saved);
+      Promise.resolve().then(() => {
+        this.form.patchValue(saved);
+      });
     }
 
     this.form
@@ -65,14 +67,10 @@ export class ScreenSaverInputComponent implements OnInit {
 
     this.form
       .get('screenSaverType')!
-      .valueChanges.subscribe((v: any) => this.applyTypeRules(v));
+      .valueChanges.subscribe((v) => this.applyTypeRules(v));
 
     this.applyStatusRules(this.form.get('screenSaverStatus')!.value);
     this.applyTypeRules(this.form.get('screenSaverType')!.value);
-
-    this.form.valueChanges.subscribe((val) => {
-      this.layoutContextService.update({ screenSaver: val });
-    });
   }
 
   applyStatusRules(enabled: boolean) {
@@ -82,16 +80,19 @@ export class ScreenSaverInputComponent implements OnInit {
 
       this.clearAllTypeFields();
     } else {
-      this.form.get('screenSaverType')!.enable();
-      this.form.get('screenSaverType')!.setValidators(Validators.required);
+      const type = this.form.get('screenSaverType')!;
+      type.enable();
+      type.setValidators(Validators.required);
     }
 
     this.form.get('screenSaverType')!.updateValueAndValidity();
   }
 
-  applyTypeRules(type: 'singleImage' | 'multiImage' | 'video') {
+  applyTypeRules(type: 'singleImage' | 'multiImage' | 'video' | null) {
     this.clearAllTypeFields();
     this.clearTypeValidators();
+
+    if (!type) return;
 
     switch (type) {
       case 'singleImage':
@@ -109,16 +110,17 @@ export class ScreenSaverInputComponent implements OnInit {
   }
 
   clearAllTypeFields() {
-    ['imageUrl', 'imageUrls', 'videoUrl', 'videoLoop'].forEach((f) =>
-      this.form.get(f)!.reset()
-    );
+    ['imageUrl', 'imageUrls', 'videoUrl', 'videoLoop'].forEach((f) => {
+      const c = this.form.get(f)!;
+      c.reset();
+      c.disable();
+    });
   }
 
   clearTypeValidators() {
     ['imageUrl', 'imageUrls', 'videoUrl'].forEach((f) => {
       const c = this.form.get(f)!;
       c.clearValidators();
-      c.disable();
       c.updateValueAndValidity();
     });
   }
@@ -129,20 +131,24 @@ export class ScreenSaverInputComponent implements OnInit {
     c.setValidators(Validators.required);
     c.updateValueAndValidity();
   }
-
   enableMultiImage() {
     const c = this.form.get('imageUrls')!;
     c.enable();
     c.setValidators(Validators.required);
     c.updateValueAndValidity();
   }
-
   enableVideo() {
     const c = this.form.get('videoUrl')!;
     c.enable();
     c.setValidators(Validators.required);
     c.updateValueAndValidity();
-
     this.form.get('videoLoop')!.enable();
+  }
+
+  onSubmit(): void {
+    if (this.form.invalid) return;
+    this.layoutContextService.update({
+      screenSaver: this.form.getRawValue(),
+    });
   }
 }

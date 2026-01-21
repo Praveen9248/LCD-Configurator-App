@@ -11,5 +11,45 @@
         <ion-select-option value="H1000">Header 4</ion-select-option>
       </ion-select>
     </ion-item>
+
+    <ion-item>
+      <ion-input formControlName="title" label="Enter Title"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input formControlName="caption" label="Enter Caption"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        type="color"
+        formControlName="backgroundColor"
+        label="Background Color"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        type="color"
+        formControlName="textColor"
+        label="Text Color"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-select formControlName="textPosition" label="Text Position">
+        <ion-select-option value="left">LEFT</ion-select-option>
+        <ion-select-option value="center">CENTER</ion-select-option>
+        <ion-select-option value="right">RIGHT</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        type="number"
+        formControlName="textSize"
+        label="Text Size"
+      ></ion-input>
+    </ion-item>
   </form>
 </ion-list>

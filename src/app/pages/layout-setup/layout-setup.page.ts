@@ -1,9 +1,18 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  computed,
+  effect,
+  inject,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonFooter, IonButton } from '@ionic/angular/standalone';
-import { SETUP_SCHEMA } from 'src/app/schema/setup-schema';
+import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
 import { LayoutContextService } from 'src/app/services/context/layout-context-service';
+import { LayoutCodeMap } from 'src/app/mappings/layoutCodeMap';
 
 @Component({
   selector: 'app-layout-setup',
@@ -13,37 +22,67 @@ import { LayoutContextService } from 'src/app/services/context/layout-context-se
   imports: [IonButton, IonFooter, IonContent, CommonModule, FormsModule],
 })
 export class LayoutSetupPage {
+  layoutContextService = inject(LayoutContextService);
+
+  currentStepIndex = computed(() => this.layoutContextService.currentStepIdx());
+
   @ViewChild('stepHost', { read: ViewContainerRef, static: true })
-  host!: ViewContainerRef;
+  vSetup!: ViewContainerRef;
 
-  stepIndex = 0;
-  schema = SETUP_SCHEMA;
+  vSetupRef?: ComponentRef<any>;
 
-  constructor(private ctx: LayoutContextService) {}
+  private viewReady = false;
 
-  ngOnInit() {
-    this.renderStep();
+  constructor() {
+    effect(() => {
+      this.layoutContextService.currentStepIdx();
+      if (!this.viewReady) {
+        return;
+      }
+      this.loadComponent();
+    });
   }
 
-  renderStep() {
-    this.host.clear();
-    const step = this.schema[this.stepIndex];
-    const ref = this.host.createComponent<any>(step.component);
-    ref.instance.stepConfig = step;
+  ngAfterViewInit() {
+    this.viewReady = true;
+    this.loadComponent();
+  }
+
+  loadComponent() {
+    if (!this.vSetup) return;
+    const stepCode = this.layoutContextService.steps[this.currentStepIndex()];
+    const component = LayoutCodeMap[stepCode];
+    if (!component) return;
+
+    this.vSetup.clear();
+    this.vSetupRef = this.vSetup.createComponent(component);
+
+    this.vSetupRef.instance.stepConfig = stepCode;
   }
 
   next() {
-    if (this.stepIndex < this.schema.length - 1) {
-      this.stepIndex++;
-      this.renderStep();
+    const instance = this.vSetupRef?.instance as handleStepForm;
+    if (!instance.form) {
+      return;
+    }
+
+    if (instance?.form?.invalid) {
+      instance?.form?.markAllAsTouched();
+      return;
+    }
+
+    instance?.onSubmit();
+
+    if (this.currentStepIndex() < this.layoutContextService.steps.length - 1) {
+      this.layoutContextService.currentStepIdx.update((i) => i + 1);
+      console.log(this.currentStepIndex());
     }
   }
 
   prev() {
-    if (this.stepIndex === 0) {
+    if (this.currentStepIndex() === 0) {
       return;
     }
-    this.stepIndex--;
-    this.renderStep();
+    this.layoutContextService.currentStepIdx.update((i) => i - 1);
   }
 }

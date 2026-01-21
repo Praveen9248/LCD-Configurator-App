@@ -6,7 +6,12 @@
   <ion-button expand="full" color="danger" class="ion-flex-1" (click)="prev()">
     Back
   </ion-button>
-  <ion-button expand="full" color="success" class="ion-flex-1" (click)="next()"
+  <ion-button
+    expand="full"
+    color="success"
+    class="ion-flex-1"
+    [disabled]="vSetupRef?.instance?.form?.invalid"
+    (click)="next()"
     >Next</ion-button
   >
 </ion-footer>

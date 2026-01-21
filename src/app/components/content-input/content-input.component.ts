@@ -11,6 +11,7 @@ import {
   IonSelect,
   IonInput,
 } from '@ionic/angular/standalone';
+import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
 
 @Component({
   selector: 'app-content-input',
@@ -29,7 +30,7 @@ import {
   templateUrl: './content-input.component.html',
   styleUrls: ['./content-input.component.scss'],
 })
-export class ContentInputComponent implements OnInit {
+export class ContentInputComponent implements OnInit, handleStepForm {
   @Input() stepConfig: any;
   constructor(
     private fb: FormBuilder,
@@ -50,7 +51,9 @@ export class ContentInputComponent implements OnInit {
   ngOnInit() {
     const saved = this.layoutContextService.value.content;
     if (saved) {
-      this.form.patchValue(saved);
+      Promise.resolve().then(() => {
+        this.form.patchValue(saved);
+      });
     }
 
     this.form.get('backgroundStyle')!.valueChanges.subscribe((style) => {
@@ -58,10 +61,6 @@ export class ContentInputComponent implements OnInit {
     });
 
     this.applyBackgroundRules(this.form.get('backgroundStyle')!.value);
-
-    this.form.valueChanges.subscribe((val) => {
-      this.layoutContextService.update({ content: val });
-    });
   }
 
   applyBackgroundRules(style: 'color' | 'image') {
@@ -91,6 +90,13 @@ export class ContentInputComponent implements OnInit {
     ['backgroundColor', 'backgroundImageUrl'].forEach((f) => {
       const c = this.form.get(f)!;
       c.clearValidators();
+    });
+  }
+
+  onSubmit(): void {
+    if (this.form.invalid) return;
+    this.layoutContextService.update({
+      content: this.form.getRawValue(),
     });
   }
 }

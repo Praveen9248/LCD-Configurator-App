@@ -10,6 +10,7 @@ import {
   IonRadio,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
+import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
 
 @Component({
   selector: 'app-template-input',
@@ -27,7 +28,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './template-input.component.html',
   styleUrls: ['./template-input.component.scss'],
 })
-export class TemplateInputComponent implements OnInit {
+export class TemplateInputComponent implements handleStepForm, OnInit {
   @Input({ required: true }) stepConfig: any;
 
   constructor(
@@ -47,17 +48,12 @@ export class TemplateInputComponent implements OnInit {
     if (saved) {
       this.form.patchValue({ templateType: saved });
     }
+  }
 
-    this.form.valueChanges.subscribe((val) => {
-      this.layoutContextService.update({ templateType: val.templateType });
+  onSubmit(): void {
+    if (this.form.invalid) return;
+    this.layoutContextService.update({
+      templateType: this.form.getRawValue().templateType,
     });
-  }
-
-  isValid() {
-    return this.form.valid;
-  }
-
-  getValue() {
-    return this.form.value;
   }
 }
