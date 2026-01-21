@@ -20,7 +20,6 @@ import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
   imports: [
     IonNote,
     IonInput,
-
     IonText,
     IonListHeader,
     IonList,
@@ -55,19 +54,18 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
     this.isListFilter = templateType === 'list';
 
     const saved = this.layoutContextService.value.intermediate;
-    console.log(saved);
-    if (saved) {
-      Promise.resolve().then(() => {
-        this.form.patchValue(saved);
-      });
-    }
 
     this.form
       .get('backgroundStyle')!
       .valueChanges.subscribe((style) => this.applyStyleRules(style));
 
-    this.applyTemplateRules();
-    this.applyStyleRules(this.form.get('backgroundStyle')!.value);
+    Promise.resolve().then(() => {
+      if (saved) {
+        this.form.patchValue(saved);
+      }
+      this.applyTemplateRules();
+      this.applyStyleRules(this.form.get('backgroundStyle')!.value);
+    });
   }
 
   applyTemplateRules() {
