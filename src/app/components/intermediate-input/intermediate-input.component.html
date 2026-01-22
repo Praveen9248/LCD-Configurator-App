@@ -12,7 +12,11 @@
 
   <form [formGroup]="form">
     <ion-item>
-      <ion-select label="Background Style" formControlName="backgroundStyle">
+      <ion-select
+        label="Background Style"
+        formControlName="backgroundStyle"
+        interface="popover"
+      >
         <ion-select-option value="color">Background Color</ion-select-option>
         <ion-select-option value="image">Background Image</ion-select-option>
       </ion-select>

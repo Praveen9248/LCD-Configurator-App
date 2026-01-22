@@ -75,7 +75,6 @@ export class LayoutSetupPage {
 
     if (this.currentStepIndex() < this.layoutContextService.steps.length - 1) {
       this.layoutContextService.currentStepIdx.update((i) => i + 1);
-      console.log(this.currentStepIndex());
     }
   }
 

@@ -4,14 +4,22 @@
   >
   <form [formGroup]="form">
     <ion-item>
-      <ion-select formControlName="contentType" label="Content Type">
+      <ion-select
+        formControlName="contentType"
+        label="Content Type"
+        interface="popover"
+      >
         <ion-select-option value="C0001">Slider</ion-select-option>
         <ion-select-option value="C0010">Grids</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-select label="Background Style" formControlName="backgroundStyle">
+      <ion-select
+        label="Background Style"
+        formControlName="backgroundStyle"
+        interface="popover"
+      >
         <ion-select-option value="color">COLOR</ion-select-option>
         <ion-select-option value="image">IMAGE</ion-select-option>
       </ion-select>

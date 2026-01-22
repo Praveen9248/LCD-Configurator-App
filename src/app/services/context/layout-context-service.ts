@@ -30,6 +30,5 @@ export class LayoutContextService {
 
   update(partial: Partial<SetupContext>) {
     this.layoutContext.update((current) => ({ ...current, ...partial }));
-    console.log(this.layoutContext());
   }
 }

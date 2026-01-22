@@ -6,7 +6,11 @@
   >
   <form [formGroup]="form">
     <ion-item>
-      <ion-select formControlName="buttonType" label="Type of Button">
+      <ion-select
+        formControlName="buttonType"
+        label="Type of Button"
+        interface="popover"
+      >
         <ion-select-option value="text-only">Text Only</ion-select-option>
         <ion-select-option value="image-only">Image Only</ion-select-option>
         <ion-select-option value="textImage">Text + Image</ion-select-option>
@@ -61,6 +65,7 @@
       ><ion-select
         label="Text Horizontal Position"
         formControlName="textHorizontalPos"
+        interface="popover"
       >
         <ion-select-option value="left">LEFT</ion-select-option>
         <ion-select-option value="center">CENTER</ion-select-option>
@@ -71,6 +76,7 @@
       <ion-select
         label="Text Vertical Position"
         formControlName="textVerticalPos"
+        interface="popover"
       >
         <ion-select-option value="top">TOP</ion-select-option>
         <ion-select-option value="center">CENTER</ion-select-option>

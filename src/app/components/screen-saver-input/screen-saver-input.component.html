@@ -10,7 +10,11 @@
 
     @if (form.get('screenSaverType')!.enabled) {
     <ion-item>
-      <ion-select formControlName="screenSaverType" label="Screen Saver Type">
+      <ion-select
+        formControlName="screenSaverType"
+        label="Screen Saver Type"
+        interface="popover"
+      >
         <ion-select-option value="singleImage"
           >Single Image Ads</ion-select-option
         >

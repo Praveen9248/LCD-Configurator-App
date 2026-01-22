@@ -38,7 +38,7 @@ export class ContentInputComponent implements OnInit, handleStepForm {
   ) {}
 
   form = this.fb.group({
-    contentType: [null, Validators.required],
+    contentType: ['C0001', Validators.required],
     backgroundStyle: this.fb.control<'color' | 'image'>('color', {
       nonNullable: true,
       validators: [Validators.required],

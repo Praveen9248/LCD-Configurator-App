@@ -9,7 +9,6 @@ import {
   IonSelectOption,
   IonSelect,
   IonInput,
-  IonLabel,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
@@ -137,7 +136,6 @@ export class ButtonInputComponent implements OnInit, handleStepForm {
 
   onSubmit(): void {
     if (this.form.invalid) return;
-    console.log(this.form);
     this.layoutContextService.update({
       button: this.form.value,
     });
