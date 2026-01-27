@@ -3,7 +3,7 @@
     <ion-list-header>
       <ion-text><h1>List of Saved Devices</h1></ion-text>
     </ion-list-header>
-    @for (ele of [1,2,3]; track $index) {
+    @if (existingLCD()?.length>0) { @for (ele of existingLCD(); track $index) {
     <ion-item detail button>
       <ion-icon
         name="desktop"
@@ -11,13 +11,24 @@
         size="large"
         class="ion-margin-horizontal"
       ></ion-icon>
-      <ion-label>LCD-{{ele}}</ion-label>
+      <ion-label>{{ele?.connected}}</ion-label>
     </ion-item>
-    }
+    } }@else {
+    <ion-text color="danger"><h4>No Devices Exist</h4></ion-text>
+    } {{status()}}
   </ion-list>
+  <form [formGroup]="connectDeviceForm" (ngSubmit)="addDevice()">
+    <ion-input label="host_ip" formControlName="host_ip"></ion-input>
+    <ion-input
+      label="port no."
+      formControlName="port"
+      type="number"
+    ></ion-input>
+    <ion-button type="submit">Connect</ion-button>
+  </form>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button
-      ><ion-icon name="add" size="large"></ion-icon
-    ></ion-fab-button>
+    <ion-fab-button>
+      <ion-icon name="add" size="large"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
 </ion-content>

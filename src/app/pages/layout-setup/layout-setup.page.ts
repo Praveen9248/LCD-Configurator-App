@@ -13,6 +13,8 @@ import { IonContent, IonFooter, IonButton } from '@ionic/angular/standalone';
 import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
 import { LayoutContextService } from 'src/app/services/context/layout-context-service';
 import { LayoutCodeMap } from 'src/app/mappings/layoutCodeMap';
+import { Router } from '@angular/router';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-layout-setup',
@@ -23,6 +25,7 @@ import { LayoutCodeMap } from 'src/app/mappings/layoutCodeMap';
 })
 export class LayoutSetupPage {
   layoutContextService = inject(LayoutContextService);
+  router = inject(Router);
 
   currentStepIndex = computed(() => this.layoutContextService.currentStepIdx());
 
@@ -60,6 +63,17 @@ export class LayoutSetupPage {
     this.vSetupRef.instance.stepConfig = stepCode;
   }
 
+  async createJsonFile(payload: any) {
+    const fileName = `payload_${Date.now()}.json`;
+    const { uri } = await Filesystem.writeFile({
+      path: fileName,
+      data: JSON.stringify(payload),
+      directory: Directory.Documents,
+      encoding: Encoding.UTF8,
+    });
+    this.layoutContextService.updateLayoutsList({ fileName: uri });
+  }
+
   next() {
     const instance = this.vSetupRef?.instance as handleStepForm;
     if (!instance.form) {
@@ -75,11 +89,19 @@ export class LayoutSetupPage {
 
     if (this.currentStepIndex() < this.layoutContextService.steps.length - 1) {
       this.layoutContextService.currentStepIdx.update((i) => i + 1);
+      return;
     }
+    this.createJsonFile(this.layoutContextService.value);
+    this.router.navigate(['tabs/layouts']);
+    this.layoutContextService.resetContext();
+    this.layoutContextService.currentStepIdx.set(0);
   }
 
   prev() {
     if (this.currentStepIndex() === 0) {
+      this.router.navigate(['tabs/layouts']);
+      this.layoutContextService.resetContext();
+      this.layoutContextService.currentStepIdx.set(0);
       return;
     }
     this.layoutContextService.currentStepIdx.update((i) => i - 1);
