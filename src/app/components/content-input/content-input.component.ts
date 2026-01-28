@@ -49,7 +49,7 @@ export class ContentInputComponent implements OnInit, handleStepForm {
   });
 
   ngOnInit() {
-    const saved = this.layoutContextService.value.content;
+    const saved = this.layoutContextService.value().content;
     if (saved) {
       Promise.resolve().then(() => {
         this.form.patchValue(saved);

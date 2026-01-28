@@ -1,13 +1,7 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { LanTransfer } from 'capacitor-lan-transfer';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import {
   IonContent,
   IonItem,
@@ -16,14 +10,17 @@ import {
   IonText,
   IonIcon,
   IonLabel,
-  IonFabButton,
-  IonFab,
   IonInput,
   IonButton,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonCardContent,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add, desktop, server } from 'ionicons/icons';
-import { LayoutContextService } from 'src/app/services/context/layout-context-service';
+import { LanTransferClientService } from 'src/app/services/context/lan-transfer-client-service';
 
 @Component({
   selector: 'app-devices',
@@ -31,10 +28,11 @@ import { LayoutContextService } from 'src/app/services/context/layout-context-se
   styleUrls: ['./devices.page.scss'],
   standalone: true,
   imports: [
+    IonCardTitle,
+    IonCard,
     IonButton,
     IonInput,
-    IonFab,
-    IonFabButton,
+
     IonLabel,
     IonIcon,
     IonText,
@@ -44,12 +42,20 @@ import { LayoutContextService } from 'src/app/services/context/layout-context-se
     CommonModule,
     ReactiveFormsModule,
     IonList,
+    IonCardHeader,
+    IonCardSubtitle,
+    IonCardContent,
   ],
 })
 export class DevicesPage {
-  layoutContextService = inject(LayoutContextService);
+  lanTransferClientService = inject(LanTransferClientService);
   form = inject(FormBuilder);
-  status = signal<any>(null);
+
+  deviceStatus = computed(() =>
+    this.lanTransferClientService.connectionStatus()
+  );
+
+  connectionLogs = computed(() => this.lanTransferClientService.logs());
 
   constructor() {
     addIcons({ desktop, add });
@@ -60,30 +66,16 @@ export class DevicesPage {
     port: ['', Validators.required],
   });
 
-  addDevice() {
-    const data = this.connectDeviceForm.value;
-    this.connectDevice(data);
-    console.log(data);
+  async addDevice() {
+    const { host_ip, port } = this.connectDeviceForm.value;
+
+    if (!host_ip || !port) return;
+
+    await this.lanTransferClientService.initOnce();
+    await this.lanTransferClientService.connect(host_ip, +port);
   }
 
-  existingLCD = computed(() => this.layoutContextService.existingDevices());
-
-  async connectDevice(data: any) {
-    const res = await LanTransfer.initialize({
-      role: 'client',
-      host: data.host_ip,
-      serverPort: data.port,
-    });
-
-    this.layoutContextService.existingDevices.update((pre) => [...pre, res]);
-
-    await LanTransfer.addListener('status', (e) => {
-      if (e.status === 'client_connected') {
-        this.status.set(e.status);
-      }
-      if (e.status === 'connection_accepted') {
-        this.status.set(e.status);
-      }
-    });
+  async onDisconnect() {
+    await this.lanTransferClientService.disconnect();
   }
 }

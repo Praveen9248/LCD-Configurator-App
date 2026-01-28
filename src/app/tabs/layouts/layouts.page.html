@@ -15,8 +15,13 @@
       <ion-label>Layout-{{$index}}</ion-label>
       <ion-button (click)="shareConfig($index)" slot="end"> share </ion-button>
     </ion-item>
-    } {{status()}}
+    }
   </ion-list>
+
+  @if (deviceStatus()) { @for (log of deviceLogs(); track $index) {
+  <ion-item>{{log}}</ion-item>
+  } }
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="onLayoutAdd()"
       ><ion-icon name="add" size="large"></ion-icon

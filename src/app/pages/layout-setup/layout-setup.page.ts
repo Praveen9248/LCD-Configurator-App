@@ -91,7 +91,7 @@ export class LayoutSetupPage {
       this.layoutContextService.currentStepIdx.update((i) => i + 1);
       return;
     }
-    this.createJsonFile(this.layoutContextService.value);
+    this.createJsonFile(this.layoutContextService.value());
     this.router.navigate(['tabs/layouts']);
     this.layoutContextService.resetContext();
     this.layoutContextService.currentStepIdx.set(0);

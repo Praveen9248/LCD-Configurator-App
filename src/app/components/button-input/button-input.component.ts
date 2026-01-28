@@ -57,7 +57,7 @@ export class ButtonInputComponent implements OnInit, handleStepForm {
   });
 
   ngOnInit() {
-    const saved = this.layoutContextService.value.button;
+    const saved = this.layoutContextService.value().button;
     if (saved) {
       this.form.patchValue(saved);
     }

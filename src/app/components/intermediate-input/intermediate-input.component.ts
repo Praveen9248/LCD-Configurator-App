@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  Input,
+  OnInit,
+  untracked,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LayoutContextService } from 'src/app/services/context/layout-context-service';
 import {
@@ -35,8 +42,6 @@ import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
 export class IntermediateInputComponent implements OnInit, handleStepForm {
   @Input() stepConfig: any;
 
-  isListFilter = false;
-
   constructor(
     private fb: FormBuilder,
     private layoutContextService: LayoutContextService
@@ -48,28 +53,33 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
     backgroundImageUrl: [''],
   });
 
+  isListFilter = computed(
+    () => this.layoutContextService.value().templateType === 'list'
+  );
+
+  private _templateEffect = untracked(() => {
+    if (this.isListFilter()) {
+      this.form.disable({ emitEvent: false });
+    } else {
+      this.form.enable({ emitEvent: false });
+      this.applyStyleRules(this.form.get('backgroundStyle')!.value);
+    }
+  });
+
   ngOnInit() {
-    const templateType = this.layoutContextService.value.templateType;
+    const saved = this.layoutContextService.value().intermediate;
 
-    this.isListFilter = templateType === 'list';
-
-    const saved = this.layoutContextService.value.intermediate;
+    if (saved) {
+      this.form.patchValue(saved);
+    }
 
     this.form
       .get('backgroundStyle')!
       .valueChanges.subscribe((style) => this.applyStyleRules(style));
-
-    Promise.resolve().then(() => {
-      if (saved) {
-        this.form.patchValue(saved);
-      }
-      this.applyTemplateRules();
-      this.applyStyleRules(this.form.get('backgroundStyle')!.value);
-    });
   }
 
   applyTemplateRules() {
-    if (this.isListFilter) {
+    if (this.isListFilter()) {
       this.form.disable({ emitEvent: false });
     } else {
       this.form.enable({ emitEvent: false });
@@ -79,7 +89,7 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
   applyStyleRules(style: 'color' | 'image' | null) {
     this.clearStyleFields();
 
-    if (this.isListFilter) {
+    if (this.isListFilter()) {
       return;
     }
 

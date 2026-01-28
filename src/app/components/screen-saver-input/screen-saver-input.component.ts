@@ -54,7 +54,7 @@ export class ScreenSaverInputComponent implements OnInit, handleStepForm {
   });
 
   ngOnInit() {
-    const saved = this.layoutContextService.value.screenSaver;
+    const saved = this.layoutContextService.value().screenSaver;
     if (saved) {
       Promise.resolve().then(() => {
         this.form.patchValue(saved);

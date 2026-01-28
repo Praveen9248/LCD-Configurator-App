@@ -12,9 +12,7 @@ export interface SetupContext {
 @Injectable({ providedIn: 'root' })
 export class LayoutContextService {
   private layoutContext = signal<SetupContext>({});
-  private ExistingLayouts = signal<any>([]);
-
-  existingDevices = signal<any>([]);
+  ExistingLayouts = signal<any[]>([]);
 
   currentStepIdx = signal(0);
 
@@ -27,13 +25,7 @@ export class LayoutContextService {
     'INTERMEDIATE',
   ];
 
-  get value() {
-    return this.layoutContext();
-  }
-
-  get existingLayouts() {
-    return this.ExistingLayouts();
-  }
+  readonly value = this.layoutContext.asReadonly();
 
   updateLayoutsList(data: any) {
     this.ExistingLayouts.update((prev) => [...prev, data]);
@@ -41,6 +33,7 @@ export class LayoutContextService {
 
   update(partial: Partial<SetupContext>) {
     this.layoutContext.update((current) => ({ ...current, ...partial }));
+    console.log(this.layoutContext());
   }
 
   resetContext() {

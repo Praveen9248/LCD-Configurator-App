@@ -37,14 +37,14 @@ export class TemplateInputComponent implements handleStepForm, OnInit {
   ) {}
 
   form = this.fb.group({
-    templateType: this.fb.control<'list' | 'nested'>('list', {
+    templateType: this.fb.control<'list' | 'nested'>('nested', {
       nonNullable: true,
       validators: [Validators.required],
     }),
   });
 
   ngOnInit() {
-    const saved = this.layoutContextService.value.templateType;
+    const saved = this.layoutContextService.value().templateType;
     if (saved) {
       this.form.patchValue({ templateType: saved });
     }

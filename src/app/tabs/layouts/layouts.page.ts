@@ -18,6 +18,7 @@ import { add, layers } from 'ionicons/icons';
 import { Router } from '@angular/router';
 import { LayoutContextService } from 'src/app/services/context/layout-context-service';
 import { LanTransfer } from 'capacitor-lan-transfer';
+import { LanTransferClientService } from 'src/app/services/context/lan-transfer-client-service';
 
 @Component({
   selector: 'app-layouts',
@@ -42,14 +43,19 @@ import { LanTransfer } from 'capacitor-lan-transfer';
 export class LayoutsPage {
   constructor(
     private router: Router,
-    private layoutContextService: LayoutContextService
+    private layoutContextService: LayoutContextService,
+    private lanTransferClientService: LanTransferClientService
   ) {
     addIcons({ layers, add });
   }
 
-  status = signal<any>(null);
+  deviceStatus = computed(() =>
+    this.lanTransferClientService.connectionStatus()
+  );
 
-  existingLayouts = computed(() => this.layoutContextService.existingLayouts);
+  deviceLogs = computed(() => this.lanTransferClientService.logs());
+
+  existingLayouts = computed(() => this.layoutContextService.ExistingLayouts());
 
   onClickDetail(idx: any) {
     console.log(this.existingLayouts()[idx]);
@@ -60,20 +66,9 @@ export class LayoutsPage {
   }
 
   async shareConfig(id: any) {
-    const currentFileUri = this.existingLayouts()[id]?.fileName;
-    await LanTransfer.sendFile({ path: currentFileUri });
+    const filePath = this.existingLayouts()[id]?.fileName;
+    if (!filePath) return;
 
-    await LanTransfer.addListener('status', (e) => {
-      if (e.status === 'send_started') {
-        this.status.set(e.status);
-      }
-      if (e.status === 'send_complete') {
-        this.status.set(e.status);
-      }
-    });
-
-    await LanTransfer.addListener('error', (e) => {
-      this.status.set(e.message);
-    });
+    await this.lanTransferClientService.sendFile(filePath);
   }
 }

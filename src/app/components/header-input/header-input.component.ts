@@ -49,7 +49,7 @@ export class HeaderInputComponent implements OnInit, handleStepForm {
   });
 
   ngOnInit() {
-    const saved = this.layoutContextService.value.header;
+    const saved = this.layoutContextService.value().header;
     if (saved) {
       Promise.resolve().then(() => {
         this.form.patchValue(saved);
