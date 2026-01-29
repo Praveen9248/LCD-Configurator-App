@@ -11,7 +11,6 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
-  IonInput,
 } from '@ionic/angular/standalone';
 import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
 
@@ -19,7 +18,6 @@ import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
   selector: 'app-screen-saver-input',
   standalone: true,
   imports: [
-    IonInput,
     IonLabel,
     IonToggle,
     IonText,
@@ -71,6 +69,64 @@ export class ScreenSaverInputComponent implements OnInit, handleStepForm {
 
     this.applyStatusRules(this.form.get('screenSaverStatus')!.value);
     this.applyTypeRules(this.form.get('screenSaverType')!.value);
+  }
+
+  onSingleImageSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+
+    if (!file) return;
+
+    this.readAsBase64(file, 'image').then((asset: any) => {
+      this.form.get('imageUrl')!.setValue(asset);
+    });
+  }
+
+  onMultipleImagesSelected(event: Event) {
+    const files = (event.target as HTMLInputElement).files;
+
+    if (!files || files.length === 0) return;
+
+    const promises = Array.from(files).map((file) =>
+      this.readAsBase64(file, 'image')
+    );
+
+    Promise.all(promises).then((assets: any) => {
+      this.form.get('imageUrls')!.setValue(assets);
+    });
+  }
+
+  onVideoSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Video Too Large.. Max 10MB for base64');
+    }
+
+    this.readAsBase64(file, 'video').then((asset: any) => {
+      this.form.get('videoUrl')!.setValue(asset);
+    });
+  }
+
+  readAsBase64(file: File, type: 'image' | 'video') {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const result = reader.result as string;
+        const base64 = result.split(',')[1];
+
+        resolve({
+          type,
+          mime: file.type,
+          encoding: 'base64',
+          data: base64,
+        });
+      };
+
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   }
 
   applyStatusRules(enabled: boolean) {

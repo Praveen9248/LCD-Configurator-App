@@ -25,23 +25,25 @@
       </ion-select>
     </ion-item>
     } @if (form.get('imageUrl')!.enabled) {
-    <ion-item
-      ><ion-input
-        label="Image URL"
-        formControlName="imageUrl"
-        label="Image URL"
-      ></ion-input
-    ></ion-item>
+    <ion-item>
+      <input
+        type="file"
+        accept="image/*"
+        (change)="onSingleImageSelected($event)"
+      />
+    </ion-item>
     } @if (form.get('imageUrls')!.enabled) {
     <ion-item>
-      <ion-input
-        label="Image URLs (comma separated)"
-        formControlName="imageUrls"
-      ></ion-input>
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        (change)="onMultipleImagesSelected($event)"
+      />
     </ion-item>
     } @if (form.get('videoUrl')!.enabled) {
     <ion-item>
-      <ion-input label="Video URL" formControlName="videoUrl"></ion-input>
+      <input type="file" accept="video/*" (change)="onVideoSelected($event)" />
     </ion-item>
     } @if (form.get('videoLoop')!.enabled) {
     <ion-item>

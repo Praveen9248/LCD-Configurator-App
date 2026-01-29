@@ -33,13 +33,17 @@
         formControlName="backgroundColor"
       ></ion-input>
     </ion-item>
-    } @if(form.get('backgroundImageUrl')!.enabled){
-    <ion-item
-      ><ion-input
-        label="Background Image URL"
-        formControlName="backgroundImageUrl"
-      ></ion-input
-    ></ion-item>
+    } @if(form.get('backgroundImage')!.enabled){
+    <ion-item>
+      <ion-label slot="start">Background Image</ion-label>
+      <ion-label slot="end" class="ion-display-flex">
+        <input
+          type="file"
+          accept="image/*"
+          (change)="onImageSelected($event)"
+        />
+      </ion-label>
+    </ion-item>
     }
   </form>
 </ion-list>

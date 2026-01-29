@@ -10,13 +10,16 @@ import {
   IonSelectOption,
   IonSelect,
   IonInput,
+  IonLabel,
 } from '@ionic/angular/standalone';
 import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
+import { Encoding } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-content-input',
   standalone: true,
   imports: [
+    IonLabel,
     IonInput,
     IonText,
     IonItem,
@@ -45,7 +48,12 @@ export class ContentInputComponent implements OnInit, handleStepForm {
     }),
 
     backgroundColor: ['#ffffff'],
-    backgroundImageUrl: [''],
+    backgroundImage: this.fb.group({
+      type: ['image'],
+      mime: [''],
+      encoding: ['base64'],
+      data: [''],
+    }),
   });
 
   ngOnInit() {
@@ -63,12 +71,35 @@ export class ContentInputComponent implements OnInit, handleStepForm {
     this.applyBackgroundRules(this.form.get('backgroundStyle')!.value);
   }
 
+  onImageSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const result = reader.result as string;
+      const base64 = result.split(',')[1];
+
+      this.form.patchValue({
+        backgroundImage: {
+          type: 'image',
+          mime: file.type,
+          encoding: 'base64',
+          data: base64,
+        },
+      });
+    };
+
+    reader.readAsDataURL(file);
+  }
+
   applyBackgroundRules(style: 'color' | 'image') {
     this.clearValidators();
 
     if (style === 'color') {
-      this.form.get('backgroundImageUrl')!.reset();
-      this.form.get('backgroundImageUrl')!.disable();
+      this.form.get('backgroundImage')!.reset();
+      this.form.get('backgroundImage')!.disable();
 
       this.form.get('backgroundColor')!.enable();
       this.form.get('backgroundColor')!.setValidators(Validators.required);
@@ -78,16 +109,16 @@ export class ContentInputComponent implements OnInit, handleStepForm {
       this.form.get('backgroundColor')!.reset();
       this.form.get('backgroundColor')!.disable();
 
-      this.form.get('backgroundImageUrl')!.enable();
-      this.form.get('backgroundImageUrl')!.setValidators(Validators.required);
+      this.form.get('backgroundImage')!.enable();
+      this.form.get('backgroundImage')!.setValidators(Validators.required);
     }
 
     this.form.get('backgroundColor')!.updateValueAndValidity();
-    this.form.get('backgroundImageUrl')!.updateValueAndValidity();
+    this.form.get('backgroundImage')!.updateValueAndValidity();
   }
 
   clearValidators() {
-    ['backgroundColor', 'backgroundImageUrl'].forEach((f) => {
+    ['backgroundColor', 'backgroundImage'].forEach((f) => {
       const c = this.form.get(f)!;
       c.clearValidators();
     });

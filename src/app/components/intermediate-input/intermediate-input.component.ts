@@ -50,7 +50,12 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
   form = this.fb.group({
     backgroundStyle: this.fb.control<'color' | 'image'>('color'),
     backgroundColor: ['#ffffff'],
-    backgroundImageUrl: [''],
+    backgroundImage: this.fb.group({
+      type: ['image'],
+      mime: [''],
+      encoding: ['base64'],
+      data: [''],
+    }),
   });
 
   isListFilter = computed(
@@ -78,6 +83,28 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
       .valueChanges.subscribe((style) => this.applyStyleRules(style));
   }
 
+  onImageSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const result = reader.result as string;
+      const base64 = result.split(',')[1];
+
+      this.form.patchValue({
+        backgroundImage: {
+          type: 'image',
+          mime: file.type,
+          encoding: 'base64',
+          data: base64,
+        },
+      });
+    };
+  }
+
   applyTemplateRules() {
     if (this.isListFilter()) {
       this.form.disable({ emitEvent: false });
@@ -101,7 +128,7 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
     }
 
     if (style === 'image') {
-      const c = this.form.get('backgroundImageUrl')!;
+      const c = this.form.get('backgroundImage')!;
       c.enable();
       c.setValidators(Validators.required);
       c.updateValueAndValidity();
@@ -109,7 +136,7 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
   }
 
   clearStyleFields() {
-    ['backgroundColor', 'backgroundImageUrl'].forEach((f) => {
+    ['backgroundColor', 'backgroundImage'].forEach((f) => {
       const c = this.form.get(f)!;
       c.reset();
       c.clearValidators();

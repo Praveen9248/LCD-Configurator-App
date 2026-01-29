@@ -31,14 +31,17 @@ export class LanTransferClientService {
 
         switch (e.status) {
           case 'client_connected':
+            this.addToLogs(e.status);
             this.connectionStatus.set(true);
             break;
 
           case 'client_disconnected':
+            this.addToLogs(e.status);
             this.connectionStatus.set(false);
             break;
 
           case 'connection_closed':
+            this.addToLogs(e.status);
             this.connectionStatus.set(false);
             break;
 
