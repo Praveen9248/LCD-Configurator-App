@@ -1,99 +1,82 @@
 <ion-list>
-  <ion-list-header
-    ><ion-text
-      ><h1>Select the {{ stepConfig }}</h1></ion-text
-    ></ion-list-header
-  >
+  <ion-list-header><ion-text>
+      <h1>Button Input</h1>
+    </ion-text></ion-list-header>
   <form [formGroup]="form">
+    <ion-item-divider>Button Type</ion-item-divider>
     <ion-item>
-      <ion-select
-        formControlName="buttonType"
-        label="Type of Button"
-        interface="popover"
-      >
+      <ion-select formControlName="buttonType" label="Type of Button" interface="popover">
         <ion-select-option value="text-only">Text Only</ion-select-option>
         <ion-select-option value="image-only">Image Only</ion-select-option>
         <ion-select-option value="textImage">Text + Image</ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-item-divider>Button Size</ion-item-divider>
     <ion-item>
-      <ion-input
-        type="number"
-        label="Width"
-        formControlName="width"
-      ></ion-input>
+      <ion-input type="number" label="Width" formControlName="width"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input
-        type="number"
-        label="Height"
-        formControlName="height"
-      ></ion-input>
+      <ion-input type="number" label="Height" formControlName="height"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input
-        type="number"
-        label="Border Radius"
-        formControlName="borderRadius"
-      ></ion-input>
+      <ion-input type="number" label="Border Radius" formControlName="borderRadius"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input
-        type="number"
-        label="Border Width"
-        formControlName="borderWidth"
-      ></ion-input>
+      <ion-input type="number" label="Border Width" formControlName="borderWidth"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input
-        type="color"
-        label="Border Color"
-        formControlName="borderColor"
-      ></ion-input>
+      <ion-input type="color" label="Border Color" formControlName="borderColor"></ion-input>
     </ion-item>
 
     @if (form.get('backgroundColor')!.enabled) {
-    <ion-item
-      ><ion-input
-        type="color"
-        label="Background Color"
-        formControlName="backgroundColor"
-      ></ion-input
-    ></ion-item>
-    } @if (form.value.buttonType !== 'image-only') {
-    <ion-item
-      ><ion-select
-        label="Text Horizontal Position"
-        formControlName="textHorizontalPos"
-        interface="popover"
-      >
+    <ion-item><ion-input type="color" label="Background Color" formControlName="backgroundColor"></ion-input></ion-item>
+    }
+
+    @if (form.value.buttonType !== 'image-only') {
+    <ion-item-divider>Text Layout</ion-item-divider>
+    <ion-item><ion-select label="Text Horizontal Position" formControlName="textHorizontalPos" interface="popover">
         <ion-select-option value="left">LEFT</ion-select-option>
         <ion-select-option value="center">CENTER</ion-select-option>
         <ion-select-option value="right">RIGHT</ion-select-option>
-      </ion-select></ion-item
-    >
+      </ion-select></ion-item>
     <ion-item>
-      <ion-select
-        label="Text Vertical Position"
-        formControlName="textVerticalPos"
-        interface="popover"
-      >
+      <ion-select label="Text Vertical Position" formControlName="textVerticalPos" interface="popover">
         <ion-select-option value="top">TOP</ion-select-option>
         <ion-select-option value="center">CENTER</ion-select-option>
         <ion-select-option value="bottom">BOTTOM</ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-item-divider>Text Style</ion-item-divider>
     <ion-item>
-      <ion-input
-        type="color"
-        label="Text Color"
-        formControlName="textColor"
-      ></ion-input>
+      <ion-input type="color" label="Text Color" formControlName="textColor"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="number" label="Font Size (px)" formControlName="fontSize"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="number" label="Font Weight" formControlName="fontWeight"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="number" step="0.1" label="Line Height" formControlName="lineHeight"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="number" step="0.1" label="Letter Spacing (px)" formControlName="letterSpacing"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-select label="Font Family" formControlName="fontFamily" interface="popover">
+        <ion-select-option value="Inter">Inter</ion-select-option>
+        <ion-select-option value="Roboto">Roboto</ion-select-option>
+        <ion-select-option value="Helvetica Neue">Helvetica Neue</ion-select-option>
+        <ion-select-option value="Arial">Arial</ion-select-option>
+      </ion-select>
     </ion-item>
     } @if (form.value.buttonType !== 'text-only') {
-    <ion-item
-      ><ion-input label="Image URL" formControlName="imageUrl"></ion-input
-    ></ion-item>
+    <ion-item-divider>Image</ion-item-divider>
+    <ion-item><ion-input label="Image URL" formControlName="imageUrl"></ion-input></ion-item>
     }
   </form>
 </ion-list>

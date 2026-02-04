@@ -1,47 +1,53 @@
 <ion-list>
-  <ion-list-header
-    ><ion-text><h1>Screen Saver Configuration</h1></ion-text></ion-list-header
-  >
+  <ion-list-header><ion-text>
+      <h1>Screen Saver Configuration</h1>
+    </ion-text></ion-list-header>
   <form [formGroup]="form">
+    <ion-item-divider>
+      <ion-label>Status</ion-label>
+    </ion-item-divider>
     <ion-item>
       <ion-label>Screen Saver Status</ion-label>
       <ion-toggle formControlName="screenSaverStatus" slot="end"></ion-toggle>
     </ion-item>
 
-    @if (form.get('screenSaverType')!.enabled) {
+    @if (form.get('timeout')!.enabled) {
     <ion-item>
-      <ion-select
-        formControlName="screenSaverType"
-        label="Screen Saver Type"
-        interface="popover"
-      >
-        <ion-select-option value="singleImage"
-          >Single Image Ads</ion-select-option
-        >
-        <ion-select-option value="multiImage"
-          >Multi Image Ads</ion-select-option
-        >
+      <ion-input type="number" label="Idle Timeout (seconds)" formControlName="timeout"></ion-input>
+    </ion-item>
+    }
+
+    @if (form.get('screenSaverType')!.enabled) {
+    <ion-item-divider>
+      <ion-label>Ad Type</ion-label>
+    </ion-item-divider>
+    <ion-item>
+      <ion-select formControlName="screenSaverType" label="Screen Saver Type" interface="popover">
+        <ion-select-option value="singleImage">Single Image Ads</ion-select-option>
+        <ion-select-option value="multiImage">Multi Image Ads</ion-select-option>
         <ion-select-option value="video">Video Ad</ion-select-option>
       </ion-select>
     </ion-item>
-    } @if (form.get('imageUrl')!.enabled) {
+    }
+    <!-- Image Ads -->
+    @if (form.get('imageUrl')!.enabled || form.get('imageUrls')!.enabled) {
+    <ion-item-divider>
+      <ion-label>Image Ads</ion-label>
+    </ion-item-divider>
+    }
+
+    @if (form.get('imageUrl')!.enabled) {
     <ion-item>
-      <input
-        type="file"
-        accept="image/*"
-        (change)="onSingleImageSelected($event)"
-      />
+      <input type="file" accept="image/*" (change)="onSingleImageSelected($event)" />
     </ion-item>
     } @if (form.get('imageUrls')!.enabled) {
     <ion-item>
-      <input
-        type="file"
-        accept="image/*"
-        multiple
-        (change)="onMultipleImagesSelected($event)"
-      />
+      <input type="file" accept="image/*" multiple (change)="onMultipleImagesSelected($event)" />
     </ion-item>
     } @if (form.get('videoUrl')!.enabled) {
+    <ion-item-divider>
+      <ion-label>Video Ad</ion-label>
+    </ion-item-divider>
     <ion-item>
       <input type="file" accept="video/*" (change)="onVideoSelected($event)" />
     </ion-item>

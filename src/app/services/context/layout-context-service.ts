@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 export interface SetupContext {
-  templateType?: 'list' | 'nested';
+  template?: any;
   button?: any;
   header?: any;
   content?: any;

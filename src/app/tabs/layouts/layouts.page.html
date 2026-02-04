@@ -1,17 +1,14 @@
 <ion-content>
   <ion-list>
     <ion-list-header>
-      <ion-text><h1>List of saved Layouts</h1></ion-text>
+      <ion-text>
+        <h1>List of saved Layouts</h1>
+      </ion-text>
     </ion-list-header>
 
     @for (layout of existingLayouts(); track $index) {
     <ion-item detail (click)="onClickDetail($index)">
-      <ion-icon
-        name="layers"
-        size="large"
-        class="ion-margin-horizontal"
-        color="tertiary"
-      ></ion-icon>
+      <ion-icon name="layers" size="large" class="ion-margin-horizontal" color="tertiary"></ion-icon>
       <ion-label>Layout-{{$index}}</ion-label>
       <ion-button (click)="shareConfig($index)" slot="end"> share </ion-button>
     </ion-item>
@@ -23,8 +20,6 @@
   } }
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="onLayoutAdd()"
-      ><ion-icon name="add" size="large"></ion-icon
-    ></ion-fab-button>
+    <ion-fab-button (click)="onLayoutAdd()"><ion-icon name="add" size="large"></ion-icon></ion-fab-button>
   </ion-fab>
 </ion-content>

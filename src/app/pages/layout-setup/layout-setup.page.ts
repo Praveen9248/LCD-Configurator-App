@@ -15,6 +15,7 @@ import { LayoutContextService } from 'src/app/services/context/layout-context-se
 import { LayoutCodeMap } from 'src/app/mappings/layoutCodeMap';
 import { Router } from '@angular/router';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { PreferenceService } from 'src/app/services/storage/preference-service';
 
 @Component({
   selector: 'app-layout-setup',
@@ -25,6 +26,7 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 })
 export class LayoutSetupPage {
   layoutContextService = inject(LayoutContextService);
+  preferenceService = inject(PreferenceService);
   router = inject(Router);
 
   currentStepIndex = computed(() => this.layoutContextService.currentStepIdx());
@@ -72,6 +74,7 @@ export class LayoutSetupPage {
       encoding: Encoding.UTF8,
     });
     this.layoutContextService.updateLayoutsList({ fileName: uri });
+    this.preferenceService.addLayout({ fileName: uri });
   }
 
   next() {

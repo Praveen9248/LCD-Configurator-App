@@ -1,17 +1,27 @@
 <ion-list>
   <ion-list-header>
     <ion-text>
-      <h1>Select the {{ stepConfig }}</h1>
+      <h1>Fill the Template Details</h1>
     </ion-text>
   </ion-list-header>
   <form [formGroup]="form">
-    <ion-radio-group formControlName="templateType">
-      <ion-item>
-        <ion-radio value="list">List Filter</ion-radio>
-      </ion-item>
-      <ion-item>
-        <ion-radio value="nested">Nested Filter</ion-radio>
-      </ion-item>
-    </ion-radio-group>
+    <ion-item-divider>
+      <ion-text><strong>Template Configuration</strong></ion-text>
+    </ion-item-divider>
+    <ion-item>
+      <ion-select label="Select the Template" formControlName="templateType" interface="popover">
+        <ion-select-option value="list">List Filter</ion-select-option>
+        <ion-select-option value="nested">Nested Filter</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item-divider>
+      <ion-text><strong>Flow Configuration</strong></ion-text>
+    </ion-item-divider>
+    <ion-item>
+      <ion-select label="Select the Flow Type" formControlName="flowType" interface="popover">
+        <ion-select-option value="CATEGORY">Category</ion-select-option>
+        <ion-select-option value="ETC">ETC</ion-select-option>
+      </ion-select>
+    </ion-item>
   </form>
 </ion-list>

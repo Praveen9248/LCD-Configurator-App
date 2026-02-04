@@ -6,8 +6,9 @@ import {
   IonListHeader,
   IonText,
   IonItem,
-  IonRadioGroup,
-  IonRadio,
+  IonItemDivider,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
@@ -16,14 +17,15 @@ import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
   selector: 'app-template-input',
   standalone: true,
   imports: [
-    IonRadio,
-    IonRadioGroup,
     IonItem,
     IonText,
     IonListHeader,
+    IonItemDivider,
     IonList,
     CommonModule,
     ReactiveFormsModule,
+    IonSelect,
+    IonSelectOption,
   ],
   templateUrl: './template-input.component.html',
   styleUrls: ['./template-input.component.scss'],
@@ -34,26 +36,34 @@ export class TemplateInputComponent implements handleStepForm, OnInit {
   constructor(
     private fb: FormBuilder,
     private layoutContextService: LayoutContextService
-  ) {}
+  ) { }
 
   form = this.fb.group({
     templateType: this.fb.control<'list' | 'nested'>('nested', {
       nonNullable: true,
       validators: [Validators.required],
     }),
+    flowType: this.fb.control<'CATEGORY' | 'ETC'>('CATEGORY', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
   });
 
   ngOnInit() {
-    const saved = this.layoutContextService.value().templateType;
-    if (saved) {
-      this.form.patchValue({ templateType: saved });
+    const saved = this.layoutContextService.value();
+    if (saved?.template?.templateType) {
+      this.form.patchValue({ templateType: saved.template.templateType });
+    }
+
+    if (saved?.template?.flowType) {
+      this.form.patchValue({ flowType: saved.template.flowType });
     }
   }
 
   onSubmit(): void {
     if (this.form.invalid) return;
     this.layoutContextService.update({
-      templateType: this.form.getRawValue().templateType,
+      template: this.form.value
     });
   }
 }

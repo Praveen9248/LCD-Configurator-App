@@ -17,8 +17,8 @@ import { addIcons } from 'ionicons';
 import { add, layers } from 'ionicons/icons';
 import { Router } from '@angular/router';
 import { LayoutContextService } from 'src/app/services/context/layout-context-service';
-import { LanTransfer } from 'capacitor-lan-transfer';
 import { LanTransferClientService } from 'src/app/services/context/lan-transfer-client-service';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-layouts',
@@ -58,7 +58,18 @@ export class LayoutsPage {
   existingLayouts = computed(() => this.layoutContextService.ExistingLayouts());
 
   onClickDetail(idx: any) {
-    console.log(this.existingLayouts()[idx]);
+    this.readJsonFile(this.existingLayouts()[idx].fileName.split('/')[2]);
+  }
+
+  async readJsonFile(location: string) {
+    const result = await Filesystem.readFile({
+      path: location,
+      directory: Directory.Documents,
+      encoding: Encoding.UTF8,
+    });
+
+    const jsonData = JSON.parse(result.data as string);
+    console.log(jsonData);
   }
 
   onLayoutAdd() {

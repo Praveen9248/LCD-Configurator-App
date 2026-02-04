@@ -1,6 +1,8 @@
 <ion-list>
   <ion-list-header>
-    <ion-text><h1>Intermediate Page Configuration</h1></ion-text>
+    <ion-text>
+      <h1>Intermediate Page Configuration</h1>
+    </ion-text>
   </ion-list-header>
 
   @if (isListFilter()) {
@@ -11,29 +13,51 @@
   }@else {
 
   <form [formGroup]="form">
+    <ion-item-divider>
+      <ion-text><strong>Background Style</strong></ion-text>
+    </ion-item-divider>
     <ion-item>
-      <ion-select
-        label="Background Style"
-        formControlName="backgroundStyle"
-        interface="popover"
-      >
+      <ion-select label="Background Style" formControlName="backgroundStyle" interface="popover">
         <ion-select-option value="color">Background Color</ion-select-option>
         <ion-select-option value="image">Background Image</ion-select-option>
+        <ion-select-option value="gradient">Gradient</ion-select-option>
       </ion-select>
     </ion-item>
 
     @if (form.get('backgroundColor')!.enabled) {
+    <ion-item-divider>
+      <ion-text><strong>Color Settings</strong></ion-text>
+    </ion-item-divider>
     <ion-item>
-      <ion-input
-        type="color"
-        formControlName="backgroundColor"
-        label="Background Color"
-      ></ion-input>
+      <ion-input type="color" formControlName="backgroundColor" label="Background Color"></ion-input>
     </ion-item>
     } @if(form.get('backgroundImage')!.enabled){
+    <ion-item-divider>
+      <ion-text><strong>Image Settings</strong></ion-text>
+    </ion-item-divider>
     <ion-item>
       <input type="file" accept="image/*" (change)="onImageSelected($event)" />
     </ion-item>
+    }
+
+    @if (form.get('backgroundGradient')!.enabled) {
+    <ion-item-divider>
+      <ion-text><strong>Gradient Settings</strong></ion-text>
+    </ion-item-divider>
+
+    <div formGroupName="backgroundGradient">
+      <ion-item>
+        <ion-input type="number" label="Angle" formControlName="angle"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input type="color" label="Start Color" formControlName="startColor"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input type="color" label="End Color" formControlName="endColor"></ion-input>
+      </ion-item>
+    </div>
     }
   </form>
   }

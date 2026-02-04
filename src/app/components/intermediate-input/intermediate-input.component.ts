@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
-  effect,
   Input,
   OnInit,
   untracked,
@@ -14,6 +13,7 @@ import {
   IonList,
   IonListHeader,
   IonText,
+  IonItemDivider,
   IonSelect,
   IonSelectOption,
   IonInput,
@@ -31,6 +31,7 @@ import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
     IonListHeader,
     IonList,
     IonItem,
+    IonItemDivider,
     CommonModule,
     ReactiveFormsModule,
     IonSelect,
@@ -45,10 +46,10 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
   constructor(
     private fb: FormBuilder,
     private layoutContextService: LayoutContextService
-  ) {}
+  ) { }
 
   form = this.fb.group({
-    backgroundStyle: this.fb.control<'color' | 'image'>('color'),
+    backgroundStyle: this.fb.control<'color' | 'image' | 'gradient'>('color'),
     backgroundColor: ['#ffffff'],
     backgroundImage: this.fb.group({
       type: ['image'],
@@ -56,10 +57,16 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
       encoding: ['base64'],
       data: [''],
     }),
+    backgroundGradient: this.fb.group({
+      type: ['linear'],
+      angle: [90, Validators.required],
+      startColor: ['#ffffff', Validators.required],
+      endColor: ['#000000', Validators.required],
+    }),
   });
 
   isListFilter = computed(
-    () => this.layoutContextService.value().templateType === 'list'
+    () => this.layoutContextService.value().template?.templateType === 'list'
   );
 
   private _templateEffect = untracked(() => {
@@ -113,10 +120,10 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
     }
   }
 
-  applyStyleRules(style: 'color' | 'image' | null) {
+  applyStyleRules(style: 'color' | 'image' | 'gradient' | null) {
     this.clearStyleFields();
 
-    if (this.isListFilter()) {
+    if (this.isListFilter() || !style) {
       return;
     }
 
@@ -133,10 +140,16 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
       c.setValidators(Validators.required);
       c.updateValueAndValidity();
     }
+
+    if (style === 'gradient') {
+      const c = this.form.get('backgroundGradient')!;
+      c.enable();
+      c.updateValueAndValidity();
+    }
   }
 
   clearStyleFields() {
-    ['backgroundColor', 'backgroundImage'].forEach((f) => {
+    ['backgroundColor', 'backgroundImage', 'backgroundGradient'].forEach((f) => {
       const c = this.form.get(f)!;
       c.reset();
       c.clearValidators();

@@ -1,21 +1,23 @@
 <ion-list>
-  <ion-list-header
-    ><ion-text><h1>Header Configuration</h1></ion-text></ion-list-header
-  >
+  <ion-list-header><ion-text>
+      <h1>Header Configuration</h1>
+    </ion-text></ion-list-header>
   <form [formGroup]="form">
+    <ion-item-divider>
+      <ion-label>Header Type</ion-label>
+    </ion-item-divider>
     <ion-item>
-      <ion-select
-        label="Header Type"
-        formControlName="headerType"
-        interface="popover"
-      >
-        <ion-select-option value="H0001">Header 1</ion-select-option>
-        <ion-select-option value="H0010">Header 2</ion-select-option>
-        <ion-select-option value="H0100">Header 3</ion-select-option>
-        <ion-select-option value="H1000">Header 4</ion-select-option>
+      <ion-select label="Header Type" formControlName="headerType" interface="popover">
+        <ion-select-option value="H0001">Logo + Title + Caption</ion-select-option>
+        <ion-select-option value="H0010">Logo + Title</ion-select-option>
+        <ion-select-option value="H0100">Title + Caption</ion-select-option>
+        <ion-select-option value="H1000">Logo</ion-select-option>
       </ion-select>
     </ion-item>
 
+    <ion-item-divider>
+      <ion-label>Header Content</ion-label>
+    </ion-item-divider>
     <ion-item>
       <ion-input formControlName="title" label="Enter Title"></ion-input>
     </ion-item>
@@ -23,41 +25,53 @@
     <ion-item>
       <ion-input formControlName="caption" label="Enter Caption"></ion-input>
     </ion-item>
-
+    <ion-item-divider>
+      <ion-label>Colors</ion-label>
+    </ion-item-divider>
     <ion-item>
-      <ion-input
-        type="color"
-        formControlName="backgroundColor"
-        label="Background Color"
-      ></ion-input>
+      <ion-input type="color" formControlName="backgroundColor" label="Background Color"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input
-        type="color"
-        formControlName="textColor"
-        label="Text Color"
-      ></ion-input>
+      <ion-input type="color" formControlName="textColor" label="Text Color"></ion-input>
     </ion-item>
-
+    <ion-item-divider>
+      <ion-label>Text Layout</ion-label>
+    </ion-item-divider>
     <ion-item>
-      <ion-select
-        formControlName="textPosition"
-        label="Text Position"
-        interface="popover"
-      >
+      <ion-select formControlName="textPosition" label="Text Position" interface="popover">
         <ion-select-option value="left">LEFT</ion-select-option>
         <ion-select-option value="center">CENTER</ion-select-option>
         <ion-select-option value="right">RIGHT</ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-item-divider>
+      <ion-label>Typography</ion-label>
+    </ion-item-divider>
+    <ion-item>
+      <ion-input type="number" label="Font Size (px)" formControlName="textSize"></ion-input>
+    </ion-item>
 
     <ion-item>
-      <ion-input
-        type="number"
-        formControlName="textSize"
-        label="Text Size"
-      ></ion-input>
+      <ion-input type="number" label="Font Weight" formControlName="fontWeight"></ion-input>
     </ion-item>
+
+    <ion-item>
+      <ion-input type="number" step="0.1" label="Line Height" formControlName="lineHeight"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="number" step="0.1" label="Letter Spacing" formControlName="letterSpacing"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-select label="Font Family" formControlName="fontFamily" interface="popover">
+        <ion-select-option value="Inter">Inter</ion-select-option>
+        <ion-select-option value="Roboto">Roboto</ion-select-option>
+        <ion-select-option value="Helvetica Neue">Helvetica Neue</ion-select-option>
+        <ion-select-option value="Arial">Arial</ion-select-option>
+      </ion-select>
+    </ion-item>
+
   </form>
 </ion-list>

@@ -11,9 +11,9 @@ import {
   IonSelect,
   IonInput,
   IonLabel,
+  IonItemDivider,
 } from '@ionic/angular/standalone';
 import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
-import { Encoding } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-content-input',
@@ -25,6 +25,7 @@ import { Encoding } from '@capacitor/filesystem';
     IonItem,
     IonList,
     IonListHeader,
+    IonItemDivider,
     CommonModule,
     ReactiveFormsModule,
     IonSelectOption,
@@ -38,11 +39,11 @@ export class ContentInputComponent implements OnInit, handleStepForm {
   constructor(
     private fb: FormBuilder,
     private layoutContextService: LayoutContextService
-  ) {}
+  ) { }
 
   form = this.fb.group({
     contentType: ['C0001', Validators.required],
-    backgroundStyle: this.fb.control<'color' | 'image'>('color', {
+    backgroundStyle: this.fb.control<'color' | 'image' | 'gradient'>('color', {
       nonNullable: true,
       validators: [Validators.required],
     }),
@@ -54,14 +55,21 @@ export class ContentInputComponent implements OnInit, handleStepForm {
       encoding: ['base64'],
       data: [''],
     }),
+
+    backgroundGradient: this.fb.group({
+      type: ['linear'],
+      angle: [90, Validators.required],
+      startColor: ['#ffffff', Validators.required],
+      endColor: ['#000000', Validators.required],
+    }),
   });
 
   ngOnInit() {
     const saved = this.layoutContextService.value().content;
     if (saved) {
-      Promise.resolve().then(() => {
-        this.form.patchValue(saved);
-      });
+
+      this.form.patchValue(saved, { emitEvent: false });
+
     }
 
     this.form.get('backgroundStyle')!.valueChanges.subscribe((style) => {
@@ -94,40 +102,40 @@ export class ContentInputComponent implements OnInit, handleStepForm {
     reader.readAsDataURL(file);
   }
 
-  applyBackgroundRules(style: 'color' | 'image') {
+  applyBackgroundRules(style: 'color' | 'image' | 'gradient') {
     this.clearValidators();
 
     if (style === 'color') {
-      this.form.get('backgroundImage')!.reset();
-      this.form.get('backgroundImage')!.disable();
-
       this.form.get('backgroundColor')!.enable();
       this.form.get('backgroundColor')!.setValidators(Validators.required);
     }
 
     if (style === 'image') {
-      this.form.get('backgroundColor')!.reset();
-      this.form.get('backgroundColor')!.disable();
-
       this.form.get('backgroundImage')!.enable();
       this.form.get('backgroundImage')!.setValidators(Validators.required);
     }
 
-    this.form.get('backgroundColor')!.updateValueAndValidity();
-    this.form.get('backgroundImage')!.updateValueAndValidity();
+    if (style === 'gradient') {
+      this.form.get('backgroundGradient')!.enable();
+    }
+
+    ['backgroundColor', 'backgroundImage', 'backgroundGradient'].forEach((f) =>
+      this.form.get(f)!.updateValueAndValidity()
+    );
   }
 
   clearValidators() {
-    ['backgroundColor', 'backgroundImage'].forEach((f) => {
+    ['backgroundColor', 'backgroundImage', 'backgroundGradient'].forEach((f) => {
       const c = this.form.get(f)!;
       c.clearValidators();
+      c.disable({ emitEvent: false });
     });
   }
 
   onSubmit(): void {
     if (this.form.invalid) return;
     this.layoutContextService.update({
-      content: this.form.getRawValue(),
+      content: this.form.value,
     });
   }
 }

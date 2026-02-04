@@ -9,6 +9,7 @@ import {
   IonSelectOption,
   IonSelect,
   IonInput,
+  IonItemDivider,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
@@ -19,6 +20,7 @@ import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
   imports: [
     IonInput,
     CommonModule,
+    IonItemDivider,
     ReactiveFormsModule,
     IonItem,
     IonText,
@@ -36,22 +38,28 @@ export class ButtonInputComponent implements OnInit, handleStepForm {
   constructor(
     private fb: FormBuilder,
     private layoutContextService: LayoutContextService
-  ) {}
+  ) { }
 
   form = this.fb.group({
     buttonType: ['text-only', Validators.required],
 
-    width: [120, Validators.required],
-    height: [48, Validators.required],
-    borderRadius: [8],
-    borderWidth: [1],
-    borderColor: ['#000000'],
+    width: [400, [Validators.required, Validators.min(300)]],
+    height: [300, [Validators.required, Validators.min(200)]],
+    borderRadius: [50],
+    borderWidth: [15, [Validators.min(10)]],
+    borderColor: ['#ff0000'],
 
     backgroundColor: ['#1976d2'],
 
     textHorizontalPos: ['center'],
     textVerticalPos: ['center'],
     textColor: ['#ffffff'],
+
+    fontSize: [48, [Validators.required, Validators.min(8)]],
+    fontWeight: [800, Validators.required],
+    lineHeight: [1.1, [Validators.required, Validators.min(0.8)]],
+    letterSpacing: [-0.5],
+    fontFamily: ['Inter'],
 
     imageUrl: [''],
   });
@@ -87,12 +95,17 @@ export class ButtonInputComponent implements OnInit, handleStepForm {
   }
 
   enableText() {
-    ['textHorizontalPos', 'textVerticalPos', 'textColor'].forEach((f) => {
-      const c = this.form.get(f)!;
-      c.enable({ emitEvent: false });
-      c.setValidators(Validators.required);
-      c.updateValueAndValidity();
-    });
+    ['textHorizontalPos', 'textVerticalPos', 'textColor',
+      'fontSize',
+      'fontWeight',
+      'lineHeight',
+      'letterSpacing',
+      'fontFamily',].forEach((f) => {
+        const c = this.form.get(f)!;
+        c.enable({ emitEvent: false });
+        c.setValidators(Validators.required);
+        c.updateValueAndValidity();
+      });
   }
 
   enableImage() {
@@ -103,12 +116,17 @@ export class ButtonInputComponent implements OnInit, handleStepForm {
   }
 
   clearTextFields() {
-    ['textHorizontalPos', 'textVerticalPos', 'textColor'].forEach((f) => {
-      const c = this.form.get(f)!;
-      c.disable({ emitEvent: false });
-      c.clearValidators();
-      c.updateValueAndValidity();
-    });
+    ['textHorizontalPos', 'textVerticalPos', 'textColor',
+      'fontSize',
+      'fontWeight',
+      'lineHeight',
+      'letterSpacing',
+      'fontFamily',].forEach((f) => {
+        const c = this.form.get(f)!;
+        c.disable({ emitEvent: false });
+        c.clearValidators();
+        c.updateValueAndValidity();
+      });
   }
 
   clearImageFields() {

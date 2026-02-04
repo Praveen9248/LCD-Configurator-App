@@ -7,6 +7,7 @@ import {
   IonList,
   IonListHeader,
   IonText,
+  IonItemDivider,
   IonToggle,
   IonLabel,
   IonSelect,
@@ -20,6 +21,7 @@ import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
   imports: [
     IonLabel,
     IonToggle,
+    IonItemDivider,
     IonText,
     IonListHeader,
     IonList,
@@ -37,7 +39,7 @@ export class ScreenSaverInputComponent implements OnInit, handleStepForm {
   constructor(
     private fb: FormBuilder,
     private layoutContextService: LayoutContextService
-  ) {}
+  ) { }
 
   form = this.fb.group({
     screenSaverStatus: this.fb.control<boolean>(false, {
@@ -204,7 +206,7 @@ export class ScreenSaverInputComponent implements OnInit, handleStepForm {
   onSubmit(): void {
     if (this.form.invalid) return;
     this.layoutContextService.update({
-      screenSaver: this.form.getRawValue(),
+      screenSaver: this.form.value,
     });
   }
 }
