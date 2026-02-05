@@ -12,6 +12,7 @@ import {
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
+import { ListTemplate, NestedTemplate } from 'src/app/interfaces/template.model';
 
 @Component({
   selector: 'app-template-input',
@@ -65,5 +66,8 @@ export class TemplateInputComponent implements handleStepForm, OnInit {
     this.layoutContextService.update({
       template: this.form.value
     });
+    this.layoutContextService.update({
+      flow: this.form.value.templateType === 'nested' ? NestedTemplate : ListTemplate
+    })
   }
 }

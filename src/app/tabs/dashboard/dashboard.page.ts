@@ -7,7 +7,18 @@ import {
   IonTitle,
   IonToolbar,
   IonText,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonCardContent,
+  IonList,
+  IonItem,
+  IonIcon,
+  IonLabel,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { desktopOutline, layersOutline, saveOutline, terminalOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,10 +33,21 @@ import {
     IonToolbar,
     CommonModule,
     FormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonCardContent,
+    IonList,
+    IonItem,
+    IonIcon,
+    IonLabel,
   ],
 })
 export class DashboardPage implements OnInit {
-  constructor() {}
+  constructor() {
+    addIcons({ desktopOutline, layersOutline, saveOutline, terminalOutline });
+  }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

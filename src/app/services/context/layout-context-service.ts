@@ -4,9 +4,11 @@ export interface SetupContext {
   template?: any;
   button?: any;
   header?: any;
+  images?: any;
   content?: any;
   screenSaver?: any;
   intermediate?: any;
+  flow?: any;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -20,6 +22,7 @@ export class LayoutContextService {
     'TEMPLATE',
     'BUTTON',
     'HEADER',
+    'IMAGE',
     'CONTENT',
     'SCREEN_SAVER',
     'INTERMEDIATE',

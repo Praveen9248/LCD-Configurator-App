@@ -1,58 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Devices</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
-  <ion-list>
-    <ion-list-header>
-      <ion-text><h1>List of Saved Devices</h1></ion-text>
-    </ion-list-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Saved Devices</ion-card-title>
+    </ion-card-header>
 
-    @if (deviceStatus()) {
+    <ion-card-content>
+      @if (deviceStatus()) {
+      <ion-item lines="none">
+        <ion-icon name="desktop" color="warning" size="large"></ion-icon>
 
-    <ion-item>
-      <ion-icon
-        name="desktop"
-        color="warning"
-        size="large"
-        class="ion-margin-horizontal"
-      ></ion-icon>
-      <ion-label>abc asodhfs</ion-label>
-      <ion-button (click)="onDisconnect()" color="danger"
-        >Disconnect</ion-button
-      >
-    </ion-item>
-    }@else {
-    <ion-text color="danger" class="ion-text-center"
-      ><p>
-        You are not connected to any device. Provide Device credentials and
-        connect
-      </p></ion-text
-    >
-    }
-  </ion-list>
-  @if(!deviceStatus()){
+        <ion-label>
+          <h2>Connected Device</h2>
+          <p>LCD Device </p>
+        </ion-label>
 
+        <ion-button fill="outline" color="danger" size="small" (click)="onDisconnect()">
+          <ion-icon name="log-out" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-item>
+      } @else {
+      <ion-text color="danger" class="ion-text-center ion-padding">
+        <p>
+          You are not connected to any device.<br />
+          Provide device credentials to connect.
+        </p>
+      </ion-text>
+      }
+    </ion-card-content>
+  </ion-card>
+  @if (!deviceStatus()) {
   <ion-card>
     <ion-card-header>
       <ion-card-title>Connect to New Device</ion-card-title>
-      <ion-card-subtitle>Fill the below 2 Valuess</ion-card-subtitle>
+      <ion-card-subtitle>Enter device details</ion-card-subtitle>
     </ion-card-header>
+
     <ion-card-content>
-      <form [formGroup]="connectDeviceForm" (ngSubmit)="addDevice()">
-        <ion-input label="host_ip" formControlName="host_ip"></ion-input>
-        <ion-input
-          label="port no."
-          formControlName="port"
-          type="number"
-        ></ion-input>
-        <ion-button type="submit">Connect</ion-button>
+      <form [formGroup]="connectDeviceForm" (ngSubmit)="addDevice()" class="ion-padding-top">
+        <ion-item>
+          <ion-input label="Host IP" label-placement="floating" formControlName="host_ip"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Port" label-placement="floating" type="number" formControlName="port"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" color="primary" class="ion-margin-top">
+          Connect
+        </ion-button>
       </form>
     </ion-card-content>
   </ion-card>
   }
-  <ion-list>
-    <ion-list-header>
-      <ion-text><h1>Logs of Above Device</h1></ion-text>
-    </ion-list-header>
-    @for (log of connectionLogs(); track $index) {
-    <ion-item>{{log}}</ion-item>
-    }
-  </ion-list>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Connection Logs</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list lines="inset">
+        @for (log of connectionLogs(); track $index) {
+        <ion-item>
+          <ion-icon name="document-text-outline" slot="start"></ion-icon>
+          <ion-label>{{ log }}</ion-label>
+        </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

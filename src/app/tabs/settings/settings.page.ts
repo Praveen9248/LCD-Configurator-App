@@ -4,15 +4,24 @@ import { FormsModule } from '@angular/forms';
 import {
   IonContent,
   IonList,
-  IonListHeader,
   IonText,
   IonItem,
   IonIcon,
   IonLabel,
   IonButton,
+  IonAvatar,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonCardContent,
+  IonToggle,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { person } from 'ionicons/icons';
+import { person, notificationsOutline, moonOutline, shieldCheckmarkOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-settings',
@@ -25,17 +34,27 @@ import { person } from 'ionicons/icons';
     IonIcon,
     IonItem,
     IonText,
-    IonListHeader,
     IonList,
     IonContent,
     CommonModule,
     FormsModule,
+    IonAvatar,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonCardContent,
+    IonToggle,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+
   ],
 })
 export class SettingsPage implements OnInit {
   constructor() {
-    addIcons({ person });
+    addIcons({ person, notificationsOutline, moonOutline, shieldCheckmarkOutline });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

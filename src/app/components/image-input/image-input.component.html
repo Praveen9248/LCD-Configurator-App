@@ -1,0 +1,59 @@
+<ion-content class="ion-padding">
+
+    @if (buttonType()) {
+
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Image Configuration</ion-card-title>
+            <ion-card-subtitle>Upload images for each category</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+            @for (step of steps(); track step; let stepIdx = $index) {
+
+            <ion-item-divider color="light">
+                <ion-label class="ion-text-uppercase ion-text-bold">
+                    {{ step }}
+                </ion-label>
+            </ion-item-divider>
+
+            <ion-list lines="none">
+                @for (val of stepValues(stepIdx); track val) {
+                <ion-item class="ion-align-items-center">
+                    <ion-icon name="image-outline" slot="start"
+                        [name]="isUploaded(stepIdx, val) ? 'checkmark-circle' : 'image-outline'"
+                        [color]="isUploaded(stepIdx, val) ? 'success' : 'medium'"></ion-icon>
+
+                    <ion-label>
+                        <h3>{{ val }}</h3>
+                        <p *ngIf="!isUploaded(stepIdx, val)">No image uploaded</p>
+                        <p *ngIf="isUploaded(stepIdx, val)">Image uploaded</p>
+                    </ion-label>
+
+                    <ion-button slot="end" fill="outline" size="small">
+                        <label>
+                            {{ isUploaded(stepIdx, val) ? 'Replace' : 'Upload' }}
+                            <input hidden type="file" accept="image/*" (change)="onUpload($event, stepIdx, val)" />
+                        </label>
+                    </ion-button>
+                </ion-item>
+                }
+            </ion-list>
+
+            }
+        </ion-card-content>
+    </ion-card>
+
+    } @else {
+
+    <ion-card>
+        <ion-card-content class="ion-text-center">
+            <ion-icon name="text" size="large" color="medium"></ion-icon>
+            <h2>Text-Only Button</h2>
+            <p>No image uploads are required for the selected button type.</p>
+        </ion-card-content>
+    </ion-card>
+
+    }
+
+</ion-content>

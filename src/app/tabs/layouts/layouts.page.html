@@ -1,25 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Layouts</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
-  <ion-list>
-    <ion-list-header>
-      <ion-text>
-        <h1>List of saved Layouts</h1>
-      </ion-text>
-    </ion-list-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Saved Layouts</ion-card-title>
+      <ion-card-subtitle>Tap a layout to view details</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="inset">
+        @for (layout of existingLayouts(); track $index) {
+        <ion-item button detail (click)="onClickDetail($index)">
+          <ion-icon name="layers" slot="start" size="large" color="tertiary"></ion-icon>
 
-    @for (layout of existingLayouts(); track $index) {
-    <ion-item detail (click)="onClickDetail($index)">
-      <ion-icon name="layers" size="large" class="ion-margin-horizontal" color="tertiary"></ion-icon>
-      <ion-label>Layout-{{$index}}</ion-label>
-      <ion-button (click)="shareConfig($index)" slot="end"> share </ion-button>
-    </ion-item>
-    }
-  </ion-list>
+          <ion-label>
+            <h2>Layout {{ $index + 1 }}</h2>
+            <p>Saved configuration</p>
+          </ion-label>
 
-  @if (deviceStatus()) { @for (log of deviceLogs(); track $index) {
-  <ion-item>{{log}}</ion-item>
-  } }
+          <ion-button fill="clear" color="primary" slot="end" (click)="shareConfig($index, $event)">
+            <ion-icon name="share-social" size="large"></ion-icon>
+          </ion-button>
+        </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  @if (deviceStatus()) {
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Device Logs</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list lines="none">
+        @for (log of deviceLogs(); track $index) {
+        <ion-item>
+          <ion-icon name="terminal-outline" slot="start"></ion-icon>
+          <ion-label>{{ log }}</ion-label>
+        </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  }
+
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="onLayoutAdd()"><ion-icon name="add" size="large"></ion-icon></ion-fab-button>
+    <ion-fab-button color="primary" (click)="onLayoutAdd()">
+      <ion-icon name="add" size="large"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
+
 </ion-content>

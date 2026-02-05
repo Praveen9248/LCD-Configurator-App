@@ -1,20 +1,86 @@
-<ion-content>
-  <ion-list>
-    <ion-list-header>
-      <ion-text>
-        <h1>Settings</h1>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Profile</ion-card-title>
+      <ion-card-subtitle>Account information</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <ion-icon name="person" size="large"></ion-icon>
+        </ion-avatar>
+
+        <ion-label>
+          <h2>User 1</h2>
+          <p>Logged in</p>
+        </ion-label>
+
+        <ion-button color="danger" fill="outline" slot="end">
+          Logout
+        </ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Preferences</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list lines="none">
+
+        <ion-item>
+          <ion-icon name="notifications-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Notifications</h2>
+            <p>Enable system alerts</p>
+          </ion-label>
+          <ion-toggle slot="end" checked></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="moon-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Dark Mode</h2>
+            <p>Reduce eye strain</p>
+          </ion-label>
+          <ion-toggle slot="end"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="shield-checkmark-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h2>Security</h2>
+            <p>Manage access & permissions</p>
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>About</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-text color="medium">
+        Version 1.0.0<br />
+        Designed for smooth device & layout management
       </ion-text>
-    </ion-list-header>
-    <ion-item>
-      <ion-icon
-        name="person"
-        size="large"
-        class="ion-margin-horizontal"
-      ></ion-icon>
-      <ion-label>User 1</ion-label>
-      <ion-label slot="end"
-        ><ion-button color="danger">logout</ion-button></ion-label
-      >
-    </ion-item>
-  </ion-list>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

@@ -1,0 +1,249 @@
+{
+    "labelList": [
+        {
+            "labelCode": "L001",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A001",
+                    "articleName": "ARTICLE001"
+                }
+            ],
+            "type": "TYPE001",
+            "category1": "RED WINE",
+            "category2": "CHILE",
+            "category3": "LIGHT",
+            "category4": "DRY",
+            "etc0": "",
+            "etc1": "",
+            "etc2": "",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "1",
+                    "shelfId": "12",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L002",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A002",
+                    "articleName": "ARTICLE002"
+                }
+            ],
+            "type": "TYPE002",
+            "category1": "RED WINE",
+            "category2": "UNITED STATES",
+            "category3": "LIGHT",
+            "category4": "DRY",
+            "etc0": "",
+            "etc1": "",
+            "etc2": "",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "1",
+                    "shelfId": "10",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L003",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A003",
+                    "articleName": "ARTICLE003"
+                }
+            ],
+            "type": "TYPE003",
+            "category1": "RED WINE",
+            "category2": "CHILE",
+            "category3": "MEDIUM",
+            "category4": "SEMI DRY",
+            "etc0": "",
+            "etc1": "",
+            "etc2": "",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "1",
+                    "shelfId": "8",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L004",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A004",
+                    "articleName": "ARTICLE004"
+                }
+            ],
+            "type": "TYPE004",
+            "category1": "RED WINE",
+            "category2": "UNITED STATES",
+            "category3": "FULL",
+            "category4": "DRY",
+            "etc0": "",
+            "etc1": "",
+            "etc2": "",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "1",
+                    "shelfId": "6",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L005",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A005",
+                    "articleName": "ARTICLE005"
+                }
+            ],
+            "type": "TYPE005",
+            "category1": "WHITE WINE",
+            "category2": "AUSTRALIA",
+            "category3": "MEDIUM",
+            "category4": "SEMI DRY",
+            "etc0": "",
+            "etc1": "",
+            "etc2": "",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "2",
+                    "shelfId": "12",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L006",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A006",
+                    "articleName": "ARTICLE006"
+                }
+            ],
+            "type": "TYPE006",
+            "category1": "WHITE WINE",
+            "category2": "ITALY",
+            "category3": "FULL",
+            "category4": "DRY",
+            "etc0": "",
+            "etc1": "",
+            "etc2": "",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "2",
+                    "shelfId": "10",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L007",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A007",
+                    "articleName": "ARTICLE007"
+                }
+            ],
+            "type": "TYPE007",
+            "category1": "",
+            "category2": "",
+            "category3": "",
+            "category4": "",
+            "etc0": "ELECTRONICS",
+            "etc1": "",
+            "etc2": "",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "3",
+                    "shelfId": "10",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L008",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A008",
+                    "articleName": "ARTICLE008"
+                }
+            ],
+            "type": "TYPE008",
+            "category1": "",
+            "category2": "",
+            "category3": "",
+            "category4": "",
+            "etc0": "MEDICINES",
+            "etc1": "GENERAL",
+            "etc2": "",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "4",
+                    "shelfId": "8",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L009",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A009",
+                    "articleName": "ARTICLE009"
+                }
+            ],
+            "type": "TYPE009",
+            "category1": "",
+            "category2": "",
+            "category3": "",
+            "category4": "",
+            "etc0": "MEDICINES",
+            "etc1": "SURGICAL",
+            "etc2": "",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "5",
+                    "shelfId": "4",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        }
+    ],
+    "responseCode": "200",
+    "responseMessage": "OK"
+}

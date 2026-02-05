@@ -6,7 +6,7 @@ import {
   IonContent,
   IonItem,
   IonList,
-  IonListHeader,
+
   IonText,
   IonIcon,
   IonLabel,
@@ -17,9 +17,12 @@ import {
   IonCardTitle,
   IonCardSubtitle,
   IonCardContent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add, desktop, server } from 'ionicons/icons';
+import { add, desktop, close, logOut, documentOutline } from 'ionicons/icons';
 import { LanTransferClientService } from 'src/app/services/context/lan-transfer-client-service';
 
 @Component({
@@ -36,7 +39,9 @@ import { LanTransferClientService } from 'src/app/services/context/lan-transfer-
     IonLabel,
     IonIcon,
     IonText,
-    IonListHeader,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
     IonItem,
     IonContent,
     CommonModule,
@@ -58,7 +63,7 @@ export class DevicesPage {
   connectionLogs = computed(() => this.lanTransferClientService.logs());
 
   constructor() {
-    addIcons({ desktop, add });
+    addIcons({ desktop, add, close, logOut, documentOutline });
   }
 
   connectDeviceForm = this.form.group({

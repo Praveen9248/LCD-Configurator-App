@@ -51,6 +51,7 @@ export class LanTransferClientService {
 
           case 'send_complete':
             this.addToLogs(e.status);
+            this.connectionStatus.set(false);
         }
       }
     );

@@ -60,8 +60,6 @@ export class ButtonInputComponent implements OnInit, handleStepForm {
     lineHeight: [1.1, [Validators.required, Validators.min(0.8)]],
     letterSpacing: [-0.5],
     fontFamily: ['Inter'],
-
-    imageUrl: [''],
   });
 
   ngOnInit() {
@@ -79,17 +77,16 @@ export class ButtonInputComponent implements OnInit, handleStepForm {
 
   applyButtonRules(type: any) {
     this.clearTextFields();
-    this.clearImageFields();
+
 
     if (type === 'text-only') {
       this.enableText();
       this.form.get('backgroundColor')!.enable({ emitEvent: false });
     } else if (type === 'image-only') {
-      this.enableImage();
       this.form.get('backgroundColor')!.disable({ emitEvent: false });
     } else if (type === 'textImage') {
       this.enableText();
-      this.enableImage();
+
       this.form.get('backgroundColor')!.enable({ emitEvent: false });
     }
   }
@@ -108,13 +105,6 @@ export class ButtonInputComponent implements OnInit, handleStepForm {
       });
   }
 
-  enableImage() {
-    const imageControl = this.form.get('imageUrl')!;
-    imageControl.enable({ emitEvent: false });
-    imageControl.setValidators(Validators.required);
-    imageControl.updateValueAndValidity();
-  }
-
   clearTextFields() {
     ['textHorizontalPos', 'textVerticalPos', 'textColor',
       'fontSize',
@@ -127,13 +117,6 @@ export class ButtonInputComponent implements OnInit, handleStepForm {
         c.clearValidators();
         c.updateValueAndValidity();
       });
-  }
-
-  clearImageFields() {
-    const imageControl = this.form.get('imageUrl')!;
-    imageControl.disable({ emitEvent: false });
-    imageControl.clearValidators();
-    imageControl.updateValueAndValidity();
   }
 
   setRequired(fields: string[]) {
