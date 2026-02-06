@@ -64,6 +64,10 @@ export class LayoutsPage {
     addIcons({ layers, shareSocial, add });
   }
 
+  ngOnInit() {
+    this.lanTransferClientService.initOnce();
+  }
+
   deviceStatus = computed(() =>
     this.lanTransferClientService.connectionStatus()
   );
@@ -76,6 +80,7 @@ export class LayoutsPage {
     this.readJsonFile(this.existingLayouts()[idx].fileName.split('/')[2]);
   }
 
+  //not working in mobiles works fine with web
   async readJsonFile(location: string) {
     const result = await Filesystem.readFile({
       path: location,

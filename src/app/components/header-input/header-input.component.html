@@ -35,6 +35,28 @@
     <ion-item>
       <ion-input type="color" formControlName="textColor" label="Text Color"></ion-input>
     </ion-item>
+
+    <ion-item-divider>
+      <ion-label>Logo Upload</ion-label>
+    </ion-item-divider>
+    <ion-item class="ion-align-items-center">
+      <ion-icon slot="start" [name]="isLogoUploaded() ? 'checkmark-circle' : 'image-outline'"
+        [color]="isLogoUploaded() ? 'success' : 'medium'">
+      </ion-icon>
+
+      <ion-label>
+        <h3>Logo</h3>
+        <p *ngIf="!isLogoUploaded()">No image uploaded</p>
+        <p *ngIf="isLogoUploaded()">Image uploaded</p>
+      </ion-label>
+
+      <ion-button slot="end" fill="outline" size="small">
+        <label>
+          {{ isLogoUploaded() ? 'Replace' : 'Upload' }}
+          <input hidden type="file" accept="image/*" (change)="onLogoSelected($event)" />
+        </label>
+      </ion-button>
+    </ion-item>
     <ion-item-divider>
       <ion-label>Text Layout</ion-label>
     </ion-item-divider>

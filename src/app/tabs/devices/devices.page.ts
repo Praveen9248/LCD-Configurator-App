@@ -62,6 +62,10 @@ export class DevicesPage {
 
   connectionLogs = computed(() => this.lanTransferClientService.logs());
 
+  async ngOnInit() {
+    await this.lanTransferClientService.initOnce();
+  }
+
   constructor() {
     addIcons({ desktop, add, close, logOut, documentOutline });
   }
@@ -76,7 +80,6 @@ export class DevicesPage {
 
     if (!host_ip || !port) return;
 
-    await this.lanTransferClientService.initOnce();
     await this.lanTransferClientService.connect(host_ip, +port);
   }
 

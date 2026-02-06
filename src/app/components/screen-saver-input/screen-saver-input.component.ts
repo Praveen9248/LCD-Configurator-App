@@ -12,6 +12,7 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
+  IonInput,
 } from '@ionic/angular/standalone';
 import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
 
@@ -30,6 +31,7 @@ import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
     ReactiveFormsModule,
     IonSelect,
     IonSelectOption,
+    IonInput,
   ],
   templateUrl: './screen-saver-input.component.html',
   styleUrls: ['./screen-saver-input.component.scss'],
@@ -101,8 +103,8 @@ export class ScreenSaverInputComponent implements OnInit, handleStepForm {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
 
-    if (file.size > 10 * 1024 * 1024) {
-      alert('Video Too Large.. Max 10MB for base64');
+    if (file.size > 60 * 1024 * 1024) {
+      alert('Video Too Large.. Max 50MB for base64');
     }
 
     this.readAsBase64(file, 'video').then((asset: any) => {
@@ -133,12 +135,14 @@ export class ScreenSaverInputComponent implements OnInit, handleStepForm {
 
   applyStatusRules(enabled: boolean) {
     if (!enabled) {
+
       this.form.get('screenSaverType')!.reset();
       this.form.get('screenSaverType')!.disable();
 
       this.clearAllTypeFields();
     } else {
       const type = this.form.get('screenSaverType')!;
+
       type.enable();
       type.setValidators(Validators.required);
     }
@@ -165,10 +169,11 @@ export class ScreenSaverInputComponent implements OnInit, handleStepForm {
         this.enableVideo();
         break;
     }
+    this.enableTimeout();
   }
 
   clearAllTypeFields() {
-    ['imageUrl', 'imageUrls', 'videoUrl', 'videoLoop'].forEach((f) => {
+    ['imageUrl', 'imageUrls', 'videoUrl', 'videoLoop', 'timeout'].forEach((f) => {
       const c = this.form.get(f)!;
       c.reset();
       c.disable();
@@ -176,7 +181,7 @@ export class ScreenSaverInputComponent implements OnInit, handleStepForm {
   }
 
   clearTypeValidators() {
-    ['imageUrl', 'imageUrls', 'videoUrl'].forEach((f) => {
+    ['imageUrl', 'imageUrls', 'videoUrl', 'timeout'].forEach((f) => {
       const c = this.form.get(f)!;
       c.clearValidators();
       c.updateValueAndValidity();
@@ -201,6 +206,13 @@ export class ScreenSaverInputComponent implements OnInit, handleStepForm {
     c.setValidators(Validators.required);
     c.updateValueAndValidity();
     this.form.get('videoLoop')!.enable();
+  }
+
+  enableTimeout() {
+    const c = this.form.get('timeout')!;
+    c.enable();
+    c.setValidators(Validators.required);
+    c.updateValueAndValidity();
   }
 
   onSubmit(): void {

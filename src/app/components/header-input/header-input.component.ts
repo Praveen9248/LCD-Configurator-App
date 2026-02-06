@@ -11,9 +11,13 @@ import {
   IonText,
   IonInput,
   IonLabel,
+  IonButton,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
+import { addIcons } from 'ionicons';
+import { checkmarkCircleOutline, imageOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-header-input',
@@ -30,6 +34,8 @@ import { handleStepForm } from 'src/app/interfaces/StepFormInterface';
     IonSelectOption,
     CommonModule,
     ReactiveFormsModule,
+    IonButton,
+    IonIcon,
   ],
   templateUrl: './header-input.component.html',
   styleUrls: ['./header-input.component.scss'],
@@ -40,7 +46,12 @@ export class HeaderInputComponent implements OnInit, handleStepForm {
   constructor(
     private fb: FormBuilder,
     private layoutContextService: LayoutContextService
-  ) { }
+  ) {
+    addIcons({
+      'checkmark-circle': checkmarkCircleOutline,
+      'image-outline': imageOutline,
+    });
+  }
 
   form = this.fb.group({
     headerType: ['H0001', Validators.required],
@@ -48,7 +59,11 @@ export class HeaderInputComponent implements OnInit, handleStepForm {
     title: ['', Validators.required],
     caption: [''],
 
-    logoUrl: [''],
+    logoUrl: this.fb.group({
+      mime: [''],
+      encoding: ['base64'],
+      data: [''],
+    }),
 
     backgroundColor: ['#ffffff'],
     textColor: ['#000000'],
@@ -68,6 +83,32 @@ export class HeaderInputComponent implements OnInit, handleStepForm {
         this.form.patchValue(saved);
       });
     }
+  }
+
+  onLogoSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      const base64 = result.split(',')[1];
+
+      this.form.patchValue({
+        logoUrl: {
+          mime: file.type,
+          encoding: 'base64',
+          data: base64,
+        },
+      });
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  isLogoUploaded(): boolean {
+    const logo = this.form.get('logoUrl')?.value;
+    return !!logo?.data;
   }
 
   onSubmit(): void {

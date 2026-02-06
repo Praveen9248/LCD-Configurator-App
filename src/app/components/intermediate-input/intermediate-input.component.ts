@@ -142,20 +142,32 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
     }
 
     if (style === 'gradient') {
-      const c = this.form.get('backgroundGradient')!;
-      c.enable();
-      c.updateValueAndValidity();
+      const gradient = this.form.get('backgroundGradient')!;
+      gradient.enable();
+
+      gradient.get('angle')?.setValidators(Validators.required);
+      gradient.get('startColor')?.setValidators(Validators.required);
+      gradient.get('endColor')?.setValidators(Validators.required);
+
+      gradient.updateValueAndValidity();
     }
   }
 
   clearStyleFields() {
-    ['backgroundColor', 'backgroundImage', 'backgroundGradient'].forEach((f) => {
-      const c = this.form.get(f)!;
-      c.reset();
-      c.clearValidators();
-      c.disable();
-      c.updateValueAndValidity();
-    });
+    const color = this.form.get('backgroundColor')!;
+    const image = this.form.get('backgroundImage')!;
+    const gradient = this.form.get('backgroundGradient')!;
+
+    color.clearValidators();
+    color.disable();
+    color.updateValueAndValidity();
+
+    image.clearValidators();
+    image.disable();
+    image.updateValueAndValidity();
+
+    gradient.disable();
+    gradient.updateValueAndValidity();
   }
 
   onSubmit(): void {

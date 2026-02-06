@@ -11,12 +11,6 @@
       <ion-toggle formControlName="screenSaverStatus" slot="end"></ion-toggle>
     </ion-item>
 
-    @if (form.get('timeout')!.enabled) {
-    <ion-item>
-      <ion-input type="number" label="Idle Timeout (seconds)" formControlName="timeout"></ion-input>
-    </ion-item>
-    }
-
     @if (form.get('screenSaverType')!.enabled) {
     <ion-item-divider>
       <ion-label>Ad Type</ion-label>
@@ -55,6 +49,14 @@
     <ion-item>
       <ion-label>Loop Video</ion-label>
       <ion-toggle formControlName="videoLoop" slot="end"></ion-toggle>
+    </ion-item>
+    }
+    <ion-item-divider>
+      <ion-label>Timeout</ion-label>
+    </ion-item-divider>
+    @if (form.get('timeout')!.enabled) {
+    <ion-item>
+      <ion-input type="number" label="Timeout (ms)" formControlName="timeout"></ion-input>
     </ion-item>
     }
   </form>
