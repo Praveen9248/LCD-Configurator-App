@@ -81,6 +81,7 @@ export class LanTransferClientService {
 
   async connect(host: string, port: number) {
     await this.initOnce();
+    this.addToLogs(`Connecting to ${host}:${port}`);
     await LanTransfer.connect({ host, port });
   }
 

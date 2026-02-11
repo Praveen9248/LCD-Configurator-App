@@ -77,11 +77,14 @@ export class LayoutsPage {
   existingLayouts = computed(() => this.preferenceService.layouts());
 
   onClickDetail(idx: any) {
-    this.readJsonFile(this.existingLayouts()[idx].fileName.split('/')[2]);
+    const layout = this.existingLayouts()[idx];
+    this.layoutContextService.setEditingFile(layout.name);
+    this.readJsonFile(layout.name);
   }
 
   //not working in mobiles works fine with web
   async readJsonFile(location: string) {
+    console.log(location);
     const result = await Filesystem.readFile({
       path: location,
       directory: Directory.Documents,
@@ -89,7 +92,7 @@ export class LayoutsPage {
     });
 
     const jsonData = JSON.parse(result.data as string);
-    this.layoutContextService.update(jsonData)
+    this.layoutContextService.update(jsonData);
     this.router.navigate(['layout-setup']);
   }
 
@@ -100,7 +103,7 @@ export class LayoutsPage {
 
   async shareConfig(id: any, event: any) {
     event?.stopPropagation();
-    const filePath = this.existingLayouts()[id]?.fileName;
+    const filePath = this.existingLayouts()[id]?.path;
     if (!filePath) return;
 
     await this.lanTransferClientService.sendFile(filePath);

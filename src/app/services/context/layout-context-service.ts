@@ -15,6 +15,7 @@ export interface SetupContext {
 export class LayoutContextService {
   private layoutContext = signal<SetupContext>({});
   ExistingLayouts = signal<any[]>([]);
+  editingFile = signal<any>(null);
 
   currentStepIdx = signal(0);
 
@@ -39,7 +40,16 @@ export class LayoutContextService {
     console.log(this.layoutContext());
   }
 
+  setEditingFile(name: any) {
+    this.editingFile.set(name);
+  }
+
+  clearEditingFile() {
+    this.editingFile.set(null);
+  }
+
   resetContext() {
     this.layoutContext.set({});
+    this.clearEditingFile();
   }
 }

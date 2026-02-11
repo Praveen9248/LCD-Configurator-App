@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'Lcd-Connect-App',
+  appId: 'com.solum.lcdSetup',
+  appName: 'LCD Setup',
   webDir: 'www',
   plugins: {
     SplashScreen: {

@@ -9,7 +9,7 @@ export const NestedTemplate = {
         "prevPage": "home"
     },
     "result": {
-        "code": "R0001",
+        "code": "R1000",
         "nextPage": null,
         "prevPage": "intermediate"
     }

@@ -73,11 +73,21 @@ export class LayoutSetupPage {
       directory: Directory.Documents,
       encoding: Encoding.UTF8,
     });
-    this.layoutContextService.updateLayoutsList({ fileName: uri });
-    this.preferenceService.addLayout({ fileName: uri });
+    this.layoutContextService.updateLayoutsList({ path: uri, name: fileName });
+    this.preferenceService.addLayout({ path: uri, name: fileName });
   }
 
-  next() {
+  async updateJsonFile(fileName: string, payload: any) {
+    await Filesystem.writeFile({
+      path: fileName,
+      data: JSON.stringify(payload),
+      directory: Directory.Documents,
+      encoding: Encoding.UTF8,
+    });
+
+  }
+
+  async next() {
     const instance = this.vSetupRef?.instance as handleStepForm;
     if (!instance.form) {
       return;
@@ -94,7 +104,17 @@ export class LayoutSetupPage {
       this.layoutContextService.currentStepIdx.update((i) => i + 1);
       return;
     }
-    this.createJsonFile(this.layoutContextService.value());
+    const editingFile = this.layoutContextService.editingFile();
+    console.log(editingFile);
+
+    if (editingFile) {
+      await this.updateJsonFile(editingFile, this.layoutContextService.value());
+      console.log("working")
+    } else {
+      await this.createJsonFile(this.layoutContextService.value());
+      console.log("working1")
+    }
+
     this.router.navigate(['tabs/layouts']);
     this.layoutContextService.resetContext();
     this.layoutContextService.currentStepIdx.set(0);
