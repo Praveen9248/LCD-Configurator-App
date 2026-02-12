@@ -1,0 +1,65 @@
+<ion-list>
+  <ion-list-header>
+    <ion-text>
+      <h1>Result Page Configuration</h1>
+    </ion-text>
+  </ion-list-header>
+
+  <form [formGroup]="form">
+    <ion-item-divider>
+      <ion-label>Result Template</ion-label>
+    </ion-item-divider>
+    <ion-item>
+      <ion-select formControlName="template" label="Template" interface="popover">
+        @for (temp of currentTemplateOptions(); track $index) {
+        <ion-select-option [value]="temp.value">{{temp.label}}</ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+
+    @for (section of ['container', 'active', 'inactive', 'output']; track section) {
+    <ion-item-divider>
+      <ion-label>{{getSectionLabel(section)}} Background Style</ion-label>
+    </ion-item-divider>
+
+    <div [formGroupName]="section">
+      <ion-item>
+        <ion-select label="Background Style" formControlName="backgroundStyle" interface="popover">
+          <ion-select-option value="color">COLOR</ion-select-option>
+          <ion-select-option value="gradient">GRADIENT</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      @if (form.get(section + '.backgroundStyle')?.value === 'color') {
+      <ion-item>
+        <ion-input type="color" label="Background Color" formControlName="backgroundColor">
+        </ion-input>
+      </ion-item>
+      }
+
+      @if (form.get(section + '.backgroundStyle')?.value === 'gradient') {
+      <ion-item-divider>
+        <ion-label>Linear Gradient</ion-label>
+      </ion-item-divider>
+
+      <div formGroupName="backgroundGradient">
+        <ion-item>
+          <ion-input type="number" label="Gradient Angle" formControlName="angle" min="0" max="360">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="color" label="Start Color" formControlName="startColor">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="color" label="End Color" formControlName="endColor">
+          </ion-input>
+        </ion-item>
+      </div>
+      }
+    </div>
+    }
+  </form>
+</ion-list>

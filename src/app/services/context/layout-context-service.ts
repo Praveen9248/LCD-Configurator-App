@@ -8,6 +8,7 @@ export interface SetupContext {
   content?: any;
   screenSaver?: any;
   intermediate?: any;
+  result?: any;
   flow?: any;
 }
 
@@ -27,6 +28,7 @@ export class LayoutContextService {
     'CONTENT',
     'SCREEN_SAVER',
     'INTERMEDIATE',
+    'RESULT',
   ];
 
   readonly value = this.layoutContext.asReadonly();

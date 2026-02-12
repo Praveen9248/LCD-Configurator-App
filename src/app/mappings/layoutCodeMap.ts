@@ -3,6 +3,7 @@ import { ContentInputComponent } from '../components/content-input/content-input
 import { HeaderInputComponent } from '../components/header-input/header-input.component';
 import { ImageInputComponent } from '../components/image-input/image-input.component';
 import { IntermediateInputComponent } from '../components/intermediate-input/intermediate-input.component';
+import { ResultInputComponent } from '../components/result-input/result-input.component';
 import { ScreenSaverInputComponent } from '../components/screen-saver-input/screen-saver-input.component';
 import { TemplateInputComponent } from '../components/template-input/template-input.component';
 
@@ -14,4 +15,5 @@ export const LayoutCodeMap: Record<any, any> = {
   CONTENT: ContentInputComponent,
   SCREEN_SAVER: ScreenSaverInputComponent,
   INTERMEDIATE: IntermediateInputComponent,
+  RESULT: ResultInputComponent,
 };
