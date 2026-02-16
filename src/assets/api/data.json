@@ -176,9 +176,9 @@
             "category2": "",
             "category3": "",
             "category4": "",
-            "etc0": "ELECTRONICS",
-            "etc1": "",
-            "etc2": "",
+            "etc0": "INK CARTRIDGE",
+            "etc1": "STAPLES",
+            "etc2": "COLORS",
             "etc3": "",
             "position": [
                 {
@@ -203,9 +203,9 @@
             "category2": "",
             "category3": "",
             "category4": "",
-            "etc0": "MEDICINES",
-            "etc1": "GENERAL",
-            "etc2": "",
+            "etc0": "TONER CARTRIDGE",
+            "etc1": "STAPLES",
+            "etc2": "BLACK",
             "etc3": "",
             "position": [
                 {
@@ -230,9 +230,144 @@
             "category2": "",
             "category3": "",
             "category4": "",
-            "etc0": "MEDICINES",
-            "etc1": "SURGICAL",
-            "etc2": "",
+            "etc0": "TONER CARTRIDGE",
+            "etc1": "STAPLES",
+            "etc2": "COLORS",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "5",
+                    "shelfId": "4",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L010",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A010",
+                    "articleName": "ARTICLE010"
+                }
+            ],
+            "type": "TYPE010",
+            "category1": "",
+            "category2": "",
+            "category3": "",
+            "category4": "",
+            "etc0": "INK CARTRIDGE",
+            "etc1": "STAPLES",
+            "etc2": "BLACK",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "5",
+                    "shelfId": "4",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L011",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A011",
+                    "articleName": "ARTICLE011"
+                }
+            ],
+            "type": "TYPE011",
+            "category1": "",
+            "category2": "",
+            "category3": "",
+            "category4": "",
+            "etc0": "INK CARTRIDGE",
+            "etc1": "OTHERS",
+            "etc2": "COLORS",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "5",
+                    "shelfId": "4",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L012",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A012",
+                    "articleName": "ARTICLE012"
+                }
+            ],
+            "type": "TYPE012",
+            "category1": "",
+            "category2": "",
+            "category3": "",
+            "category4": "",
+            "etc0": "INK CARTRIDGE",
+            "etc1": "OTHERS",
+            "etc2": "BLACK",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "5",
+                    "shelfId": "4",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L013",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A013",
+                    "articleName": "ARTICLE013"
+                }
+            ],
+            "type": "TYPE013",
+            "category1": "",
+            "category2": "",
+            "category3": "",
+            "category4": "",
+            "etc0": "TONER CARTRIDGE",
+            "etc1": "OTHERS",
+            "etc2": "BLACK",
+            "etc3": "",
+            "position": [
+                {
+                    "floor": "5",
+                    "shelfId": "4",
+                    "shelfFloor": 0,
+                    "order": 0
+                }
+            ]
+        },
+        {
+            "labelCode": "L014",
+            "updateStatus": null,
+            "articleList": [
+                {
+                    "articleId": "A014",
+                    "articleName": "ARTICLE014"
+                }
+            ],
+            "type": "TYPE014",
+            "category1": "",
+            "category2": "",
+            "category3": "",
+            "category4": "",
+            "etc0": "TONER CARTRIDGE",
+            "etc1": "OTHERS",
+            "etc2": "COLORS",
             "etc3": "",
             "position": [
                 {

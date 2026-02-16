@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -27,6 +27,7 @@ import { LanTransferClientService } from 'src/app/services/context/lan-transfer-
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { PreferenceService } from 'src/app/services/storage/preference-service';
 import { LayoutContextService } from 'src/app/services/context/layout-context-service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-layouts',
@@ -59,9 +60,19 @@ export class LayoutsPage {
     private router: Router,
     private lanTransferClientService: LanTransferClientService,
     private preferenceService: PreferenceService,
-    private layoutContextService: LayoutContextService
+    private layoutContextService: LayoutContextService,
+    private loadingCtrl: LoadingController
   ) {
     addIcons({ layers, shareSocial, add });
+    effect(async () => {
+      if (this.lanTransferClientService.sendFileStatus()) {
+        const loader = await this.loadingCtrl.create({ message: 'Sending file...' });
+        await loader.present();
+      } else {
+        const loader = await this.loadingCtrl.getTop();
+        await loader?.dismiss();
+      }
+    })
   }
 
   ngOnInit() {

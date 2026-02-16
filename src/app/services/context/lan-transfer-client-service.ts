@@ -6,12 +6,14 @@ import {
   StatusEvent,
 } from 'capacitor-lan-transfer';
 
+
 @Injectable({ providedIn: 'root' })
 export class LanTransferClientService {
   connectionStatus = signal<boolean>(false);
   logs = signal<any[]>([]);
   senderProgressPercent = signal<number>(0);
   private initialized = false;
+  sendFileStatus = signal<boolean>(false);
 
   private statusListener?: { remove: () => Promise<void> };
   private progressListener?: { remove: () => Promise<void> };
@@ -46,10 +48,12 @@ export class LanTransferClientService {
             break;
 
           case 'send_started':
+            this.sendFileStatus.set(true)
             this.addToLogs(e.status);
             break;
 
           case 'send_complete':
+            this.sendFileStatus.set(false)
             this.addToLogs(e.status);
             this.connectionStatus.set(false);
         }
@@ -60,6 +64,7 @@ export class LanTransferClientService {
       'error',
       (e: ErrorEvent) => {
         if (e.role !== 'client') return;
+        this.sendFileStatus.set(false)
         this.addToLogs(e.message);
       }
     );
@@ -97,6 +102,7 @@ export class LanTransferClientService {
     }
 
     await LanTransfer.sendFile({ path });
+
   }
 
   async cleanup() {

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
+  effect,
   Input,
   OnInit,
   untracked,
@@ -46,7 +47,16 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
   constructor(
     private fb: FormBuilder,
     private layoutContextService: LayoutContextService
-  ) { }
+  ) {
+    effect(() => {
+      if (this.isListFilter()) {
+        this.form.disable({ emitEvent: false });
+      } else {
+        this.form.enable({ emitEvent: false });
+        this.applyStyleRules(this.form.get('backgroundStyle')!.value);
+      }
+    });
+  }
 
   form = this.fb.group({
     backgroundStyle: this.fb.control<'color' | 'image' | 'gradient'>('color'),
@@ -69,25 +79,25 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
     () => this.layoutContextService.value().template?.templateType === 'list'
   );
 
-  private _templateEffect = untracked(() => {
-    if (this.isListFilter()) {
-      this.form.disable({ emitEvent: false });
-    } else {
-      this.form.enable({ emitEvent: false });
-      this.applyStyleRules(this.form.get('backgroundStyle')!.value);
-    }
-  });
+
 
   ngOnInit() {
     const saved = this.layoutContextService.value().intermediate;
 
     if (saved) {
-      this.form.patchValue(saved);
+      this.form.patchValue(saved, { emitEvent: false });
+
+      const savedStyle = saved.backgroundStyle;
+      if (savedStyle) {
+        this.applyStyleRules(savedStyle);
+      }
     }
 
     this.form
       .get('backgroundStyle')!
       .valueChanges.subscribe((style) => this.applyStyleRules(style));
+
+    this.applyTemplateRules();
   }
 
   onImageSelected(event: Event) {
@@ -110,6 +120,8 @@ export class IntermediateInputComponent implements OnInit, handleStepForm {
         },
       });
     };
+
+    reader.readAsDataURL(file);
   }
 
   applyTemplateRules() {

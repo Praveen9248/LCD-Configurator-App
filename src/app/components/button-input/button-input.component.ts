@@ -46,7 +46,7 @@ export class ButtonInputComponent implements OnInit, handleStepForm {
     width: [400, [Validators.required, Validators.min(300)]],
     height: [300, [Validators.required, Validators.min(200)]],
     borderRadius: [50],
-    borderWidth: [15, [Validators.min(10)]],
+    borderWidth: [15, [Validators.min(0)]],
     borderColor: ['#ff0000'],
 
     backgroundColor: ['#1976d2'],
