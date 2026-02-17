@@ -6,7 +6,6 @@ import {
   IonContent,
   IonItem,
   IonList,
-
   IonText,
   IonIcon,
   IonLabel,
@@ -35,7 +34,6 @@ import { LanTransferClientService } from 'src/app/services/context/lan-transfer-
     IonCard,
     IonButton,
     IonInput,
-
     IonLabel,
     IonIcon,
     IonText,
