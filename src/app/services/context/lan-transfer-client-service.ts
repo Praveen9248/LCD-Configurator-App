@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import {
   ErrorEvent,
   LanTransfer,
@@ -12,6 +12,7 @@ export class LanTransferClientService {
   connectionStatus = signal<boolean>(false);
   logs = signal<any[]>([]);
   senderProgressPercent = signal<number>(0);
+
   private initialized = false;
 
   private statusListener?: { remove: () => Promise<void> };
@@ -27,7 +28,7 @@ export class LanTransferClientService {
   async registerListeners() {
     this.statusListener = await LanTransfer.addListener(
       'status',
-      (e: StatusEvent) => {
+      async (e: StatusEvent) => {
         if (e.role !== 'client') return;
 
         switch (e.status) {
@@ -47,14 +48,13 @@ export class LanTransferClientService {
             break;
 
           case 'send_started':
-
             this.addToLogs(e.status);
             break;
 
           case 'send_complete':
-
             this.addToLogs(e.status);
-            this.connectionStatus.set(false);
+            await this.cleanup();
+            break;
         }
       }
     );
@@ -71,7 +71,8 @@ export class LanTransferClientService {
     this.progressListener = await LanTransfer.addListener(
       'progress',
       (e: ProgressEvent) => {
-        if (e.role !== 'client' || e.direction === 'receive') return;
+        if (e.role !== 'client' || e.direction !== 'send') return;
+
         this.senderProgressPercent.set(e.percent);
       }
     );
@@ -95,13 +96,13 @@ export class LanTransferClientService {
   }
 
   async sendFile(path: string) {
+
     if (!this.connectionStatus()) {
       this.addToLogs('Not connected to server');
       return;
     }
 
     await LanTransfer.sendFile({ path });
-
   }
 
   async cleanup() {

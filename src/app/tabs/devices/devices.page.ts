@@ -21,7 +21,7 @@ import {
   IonTitle,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add, desktop, close, logOut, documentOutline } from 'ionicons/icons';
+import { add, desktop, close, logOut, documentTextOutline } from 'ionicons/icons';
 import { LanTransferClientService } from 'src/app/services/context/lan-transfer-client-service';
 
 @Component({
@@ -65,7 +65,7 @@ export class DevicesPage {
   }
 
   constructor() {
-    addIcons({ desktop, add, close, logOut, documentOutline });
+    addIcons({ desktop, add, close, logOut, documentTextOutline });
   }
 
   connectDeviceForm = this.form.group({
